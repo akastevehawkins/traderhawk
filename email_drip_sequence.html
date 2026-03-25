@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Templates — Trader Hawk Drip Sequence</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #f0f4f8; color: #333; line-height: 1.6; padding: 40px 24px;
+  }
+  .page-header { text-align: center; margin-bottom: 40px; }
+  .page-header h1 { font-size: 24px; color: #203a43; margin-bottom: 8px; }
+  .page-header p { font-size: 14px; color: #888; }
+
+  .email-template {
+    max-width: 640px; margin: 0 auto 40px;
+    background: #fff; border-radius: 12px; border: 1px solid #e0e5ea;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04); overflow: hidden;
+  }
+  .email-meta {
+    background: #f8fafb; padding: 16px 24px; border-bottom: 1px solid #e0e5ea;
+    font-size: 13px; color: #6b7280;
+  }
+  .email-meta strong { color: #203a43; }
+  .email-meta .timing { float: right; background: #203a43; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .email-body { padding: 28px 24px; }
+  .email-body h2 { display: none; }
+  .email-body p { font-size: 15px; color: #444; margin-bottom: 14px; }
+  .email-body .greeting { font-weight: 600; color: #203a43; }
+  .email-body .signoff { margin-top: 24px; }
+  .email-body .cta-button {
+    display: inline-block; background: #d4a853; color: #0f2027;
+    padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 15px;
+    text-decoration: none; margin: 16px 0;
+  }
+  .note-bubble {
+    background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+    padding: 12px 16px; margin: 20px 0; font-size: 13px; color: #92400e;
+  }
+  ul { padding-left: 20px; margin-bottom: 14px; }
+  li { font-size: 15px; color: #444; margin-bottom: 6px; }
+
+  .divider { border: none; border-top: 2px dashed #e0e5ea; margin: 40px auto; max-width: 200px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>📧 Trader Hawk — Email Drip Sequence</h1>
+  <p>3-email follow-up for demo leads who haven't closed yet. Copy/paste or adapt.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     EMAIL 1: Demo Recap (Send same day as demo)
+     ═══════════════════════════════════════════════ -->
+<div class="email-template">
+  <div class="email-meta">
+    <span class="timing">Day 0 — After Demo</span>
+    <strong>Subject:</strong> Here's everything we covered — plus a case study<br>
+    <strong>From:</strong> Steve Hawkins &lt;akastevehawkins@gmail.com&gt;
+  </div>
+  <div class="email-body">
+    <p class="greeting">Hey {{FIRST_NAME}},</p>
+
+    <p>Great chatting about your marketing today. Here's a quick recap of what we covered:</p>
+
+    <ul>
+      <li><strong>The problem:</strong> You're spending hours on social media and marketing tools when you should be showing homes and closing deals.</li>
+      <li><strong>The solution:</strong> Trader Hawk — your AI marketing assistant that runs 24/7 through iMessage. Text a command, get a published post. No apps, no dashboards.</li>
+      <li><strong>What it does:</strong> Facebook + Instagram posting, AI content & image generation, email, calendar, Google Docs, flyers, content calendars, and marketing coaching — all from a text message.</li>
+    </ul>
+
+    <p>Here's the case study I mentioned — Kimberly Warner, an agent in Racine, went from 2 hours/day on social media to 5 minutes and grew her following 40% in the first month:</p>
+
+    <a href="#" class="cta-button">Read Kimberly's Story →</a>
+
+    <div class="note-bubble">
+      <strong>Internal note:</strong> Replace the CTA link with the hosted URL for case_study_kimberly.html
+    </div>
+
+    <p>If you're ready to get started, just reply to this email and I'll send you the onboarding form. Setup takes 2-3 days — you could be texting your AI assistant by {{TARGET_DATE}}.</p>
+
+    <div class="signoff">
+      <p>Talk soon,<br><strong>Steve Hawkins</strong><br>Trader Hawk · (262) 498-7036</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     EMAIL 2: Social Proof (Send Day 3 after demo)
+     ═══════════════════════════════════════════════ -->
+<div class="email-template">
+  <div class="email-meta">
+    <span class="timing">Day 3 — Social Proof</span>
+    <strong>Subject:</strong> This is what Trader Hawk posted for Kimberly this week<br>
+    <strong>From:</strong> Steve Hawkins &lt;akastevehawkins@gmail.com&gt;
+  </div>
+  <div class="email-body">
+    <p class="greeting">Hey {{FIRST_NAME}},</p>
+
+    <p>Wanted to show you what Trader Hawk has been up to this week for one of our agents in Wisconsin.</p>
+
+    <p>Here's what Kimberly created <em>just by texting her phone</em> — total time invested: about 10 minutes across the whole week:</p>
+
+    <ul>
+      <li>📱 <strong>Monday:</strong> Market update post with AI-generated infographic — 47 engagements</li>
+      <li>🏡 <strong>Tuesday:</strong> New listing package (Facebook + Instagram + TikTok script) — generated in 30 seconds</li>
+      <li>💡 <strong>Thursday:</strong> "5 Spring Buyer Tips" post — AI wrote the copy, generated the image, and published it while she was at a showing</li>
+      <li>📌 <strong>Friday:</strong> Open house flyer — print-ready, professional design, created by texting "flyer 123 Oak Ave, Sunday 1-3pm"</li>
+    </ul>
+
+    <p>That's 4 high-quality posts with zero time at a computer. No Canva, no Hootsuite, no VA. Just text messages.</p>
+
+    <p>Imagine what your page would look like after a month of consistent, professional content — without the 2-hour daily grind.</p>
+
+    <p>If you want to see this working with <em>your</em> accounts, just reply and we'll set up a quick follow-up.</p>
+
+    <div class="signoff">
+      <p>— Rikki</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     EMAIL 3: Urgency / Offer (Send Day 7 after demo)
+     ═══════════════════════════════════════════════ -->
+<div class="email-template">
+  <div class="email-meta">
+    <span class="timing">Day 7 — Founding Offer</span>
+    <strong>Subject:</strong> Quick question + a founding member offer (expires {{EXPIRY_DATE}})<br>
+    <strong>From:</strong> Steve Hawkins &lt;akastevehawkins@gmail.com&gt;
+  </div>
+  <div class="email-body">
+    <p class="greeting">Hey {{FIRST_NAME}},</p>
+
+    <p>Quick question: what's holding you back?</p>
+
+    <p>If it's timing — I completely get it. Real estate moves fast and you've got deals to close. But here's the thing: every week without consistent marketing is a week you're invisible to potential clients scrolling Facebook and Instagram.</p>
+
+    <p>If it's price — I want to make this easy. I'm looking for <strong>5 founding members</strong> who want to help shape the product. In exchange, you get:</p>
+
+    <ul>
+      <li>🏷️ <strong>25% off the setup fee</strong> — $2,249 instead of $2,999 (Standard) or $3,374 instead of $4,499 (Premium)</li>
+      <li>🔒 <strong>Rate locked for 12 months</strong> — $79/mo or $99/mo guaranteed, even if pricing changes</li>
+      <li>📞 <strong>Direct line to me</strong> for feature requests and feedback</li>
+      <li>⚡ <strong>Priority setup</strong> — live within 48 hours</li>
+    </ul>
+
+    <p>I've already filled {{SPOTS_FILLED}} of the 5 spots. This offer expires <strong>{{EXPIRY_DATE}}</strong>.</p>
+
+    <a href="#" class="cta-button">Claim Your Founding Spot →</a>
+
+    <div class="note-bubble">
+      <strong>Internal note:</strong> Replace CTA with direct link to intake form or a reply-to-claim flow. Update {{SPOTS_FILLED}} and {{EXPIRY_DATE}} each time you send.
+    </div>
+
+    <p>If it's something else entirely — just hit reply and tell me. No pressure, genuinely curious.</p>
+
+    <div class="signoff">
+      <p>— Steve Hawkins<br>Trader Hawk<br>akastevehawkins@gmail.com · (262) 498-7036</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════ INSTRUCTIONS ═══════ -->
+<div style="max-width: 640px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 12px; border: 1px solid #e0e5ea;">
+  <h3 style="font-size: 16px; color: #203a43; margin-bottom: 12px;">📋 How to Use These Templates</h3>
+  <ol style="padding-left: 20px;">
+    <li style="margin-bottom: 10px;"><strong>After a demo call:</strong> Send Email 1 the same day. Replace <code>{{FIRST_NAME}}</code> with the lead's name and <code>{{TARGET_DATE}}</code> with a date 3-4 days out.</li>
+    <li style="margin-bottom: 10px;"><strong>Day 3:</strong> Send Email 2 if they haven't responded. Update the example posts with real recent content from Kimberly's or another client's page.</li>
+    <li style="margin-bottom: 10px;"><strong>Day 7:</strong> Send Email 3 if still no response. Update <code>{{SPOTS_FILLED}}</code> (honest count) and <code>{{EXPIRY_DATE}}</code> (7 days from send).</li>
+    <li style="margin-bottom: 10px;"><strong>If they respond at any point:</strong> Stop the sequence and handle the conversation directly.</li>
+    <li style="margin-bottom: 10px;"><strong>If no response after Email 3:</strong> Move to "cold" list. Follow up again in 30 days with a new case study or feature update.</li>
+  </ol>
+
+  <h3 style="font-size: 16px; color: #203a43; margin: 20px 0 12px;">🔧 Future Automation</h3>
+  <p style="font-size: 14px; color: #6b7280;">These can be automated via:</p>
+  <ul style="font-size: 14px; color: #6b7280; padding-left: 20px;">
+    <li>Gmail drafts using the existing Google Services integration</li>
+    <li>Mailchimp/ConvertKit automation (when list grows past 20+)</li>
+    <li>Or just send manually from Gmail for now — the personal touch matters at this stage</li>
+  </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Onboarding — Trader Hawk Setup</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0f2027; --navy-mid: #203a43; --navy-light: #2c5364;
+    --gold: #d4a853; --green: #27ae60;
+    --white: #fff; --gray-50: #f8fafb; --gray-100: #f0f4f8;
+    --gray-200: #e0e5ea; --gray-500: #6b7280; --gray-700: #374151; --gray-900: #1a1a1a;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--gray-50); color: var(--gray-900); line-height: 1.6; }
+
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: var(--white); text-align: center; padding: 40px 24px;
+  }
+  .header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .header p { font-size: 15px; color: rgba(255,255,255,0.7); }
+
+  .form-wrap {
+    max-width: 640px; margin: -20px auto 40px; padding: 32px;
+    background: var(--white); border-radius: 16px; border: 1px solid var(--gray-200);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .section-title {
+    font-size: 18px; font-weight: 700; color: var(--navy-mid);
+    margin: 28px 0 16px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--gray-100);
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block; font-size: 14px; font-weight: 600;
+    color: var(--gray-700); margin-bottom: 6px;
+  }
+  .field .hint { font-size: 12px; color: var(--gray-500); margin-bottom: 6px; }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: 10px 14px;
+    border: 1px solid var(--gray-200); border-radius: 8px;
+    font-size: 15px; font-family: var(--font);
+    background: var(--gray-50); color: var(--gray-900);
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    outline: none; border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(44,83,100,0.1);
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+
+  .checkbox-field { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+  .checkbox-field input[type="checkbox"] { width: auto; margin-top: 3px; }
+  .checkbox-field label { font-weight: 400; font-size: 14px; color: var(--gray-700); }
+
+  .submit-btn {
+    display: block; width: 100%; padding: 14px;
+    background: var(--gold); color: var(--navy); border: none;
+    border-radius: 10px; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.2s; margin-top: 28px;
+  }
+  .submit-btn:hover { opacity: 0.9; }
+
+  .note {
+    background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+    padding: 14px 18px; margin: 20px 0; font-size: 13px; color: #92400e;
+  }
+
+  .footer { text-align: center; padding: 20px; font-size: 13px; color: var(--gray-500); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🦅 Trader Hawk — Client Onboarding</h1>
+  <p>Fill this out and we'll have your AI assistant configured in 2-3 business days.</p>
+</div>
+
+<div class="form-wrap">
+  <!-- NOTE: This is the design template. For production, recreate this as a Google Form
+       using the /form survey command in the iMessage bot, or build on a hosted form service. -->
+
+  <div class="note">
+    <strong>How this works:</strong> We use this information to configure your personal AI assistant. Your credentials are encrypted and stored on a private server — never in a shared cloud database. You can revoke access to any service at any time.
+  </div>
+
+  <h2 class="section-title">1. About You</h2>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Full Name *</label>
+      <input type="text" placeholder="Jane Smith" required>
+    </div>
+    <div class="field">
+      <label>Phone Number *</label>
+      <input type="tel" placeholder="(262) 555-0123" required>
+      <div class="hint">This is the number your AI assistant will text.</div>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Email Address *</label>
+      <input type="email" placeholder="jane@example.com" required>
+    </div>
+    <div class="field">
+      <label>Brokerage Name *</label>
+      <input type="text" placeholder="Epique Realty" required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Market Area (Counties/Cities You Serve) *</label>
+    <input type="text" placeholder="Racine County, Kenosha County, Milwaukee">
+  </div>
+
+  <h2 class="section-title">2. Social Media Accounts</h2>
+
+  <div class="field">
+    <label>Facebook Business Page URL *</label>
+    <input type="url" placeholder="https://facebook.com/yourpagename">
+    <div class="hint">Must be a Facebook Page (not a personal profile). You'll need to grant admin access.</div>
+  </div>
+
+  <div class="field">
+    <label>Instagram Business Account Username</label>
+    <input type="text" placeholder="@yourhandle">
+    <div class="hint">Must be an Instagram Business or Creator account (not personal).</div>
+  </div>
+
+  <div class="field">
+    <label>Do you currently use any social media tools?</label>
+    <textarea placeholder="e.g., Canva, Hootsuite, Buffer, Later, a VA, nothing..."></textarea>
+  </div>
+
+  <h2 class="section-title">3. Google Account</h2>
+
+  <div class="field">
+    <label>Gmail Address (for email, calendar, docs integration)</label>
+    <input type="email" placeholder="jane@gmail.com">
+    <div class="hint">We'll send you a one-click authorization link. We never see your password.</div>
+  </div>
+
+  <div class="note">
+    <strong>Google integration is optional.</strong> If you'd prefer to keep email/calendar separate, skip this section. You can always add it later.
+  </div>
+
+  <h2 class="section-title">4. Your Brand & Voice</h2>
+
+  <div class="field">
+    <label>How would you describe your brand tone?</label>
+    <select>
+      <option value="">Select one...</option>
+      <option>Professional & polished</option>
+      <option>Friendly & approachable</option>
+      <option>Fun & energetic</option>
+      <option>Warm & community-focused</option>
+      <option>Luxury & sophisticated</option>
+      <option>Not sure — let the AI figure it out</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Brand Colors (if you have them)</label>
+    <input type="text" placeholder="e.g., Navy blue + gold, or #2c5364 + #d4a853">
+    <div class="hint">Used for flyers and graphics. Skip if you don't have brand colors.</div>
+  </div>
+
+  <div class="field">
+    <label>Link to 3-5 Posts You Like</label>
+    <textarea placeholder="Paste URLs to Facebook or Instagram posts you've made (or admire from other agents). This jumpstarts the style-learning engine."></textarea>
+  </div>
+
+  <div class="field">
+    <label>Anything the AI should know about your business?</label>
+    <textarea placeholder="e.g., I specialize in first-time buyers, I'm bilingual (English/Spanish), I focus on lakefront properties, I hate emojis..."></textarea>
+  </div>
+
+  <h2 class="section-title">5. Plan Selection</h2>
+
+  <div class="checkbox-field">
+    <input type="radio" name="plan" id="plan-ess" value="essentials">
+    <label for="plan-ess"><strong>Standard</strong> — $2,999 setup + $79/mo<br><span style="color: var(--gray-500); font-size: 13px;">All features included: social posting, AI content, flyers, forms, email & calendar, coaching</span></label>
+  </div>
+  <div class="checkbox-field">
+    <input type="radio" name="plan" id="plan-pro" value="professional" checked>
+    <label for="plan-pro"><strong>Premium</strong> — $4,499 setup + $99/mo<br><span style="color: var(--gray-500); font-size: 13px;">Everything in Standard + Move Predictor intelligence, monthly strategy call, priority support</span></label>
+  </div>
+
+  <h2 class="section-title">6. Getting Started</h2>
+
+  <div class="field">
+    <label>How did you hear about Trader Hawk?</label>
+    <select>
+      <option value="">Select one...</option>
+      <option>Referral from another agent</option>
+      <option>Facebook / Instagram</option>
+      <option>Real estate Facebook group</option>
+      <option>Networking event / BNI</option>
+      <option>Google search</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Referring Agent (if any)</label>
+    <input type="text" placeholder="Their name — they'll get a referral bonus!">
+  </div>
+
+  <div class="field">
+    <label>When would you like to start?</label>
+    <select>
+      <option>As soon as possible</option>
+      <option>Within the next week</option>
+      <option>Within the next 2 weeks</option>
+      <option>I'm just exploring for now</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Questions or special requests?</label>
+    <textarea placeholder="Anything else we should know..."></textarea>
+  </div>
+
+  <button type="submit" class="submit-btn">Submit Onboarding Form →</button>
+</div>
+
+<div class="footer">
+  <p>Trader Hawk · AI-Powered Real Estate Marketing · <a href="mailto:akastevehawkins@gmail.com" style="color: var(--navy-light);">akastevehawkins@gmail.com</a> · (262) 498-7036</p>
+</div>
+
+</body>
+</html>

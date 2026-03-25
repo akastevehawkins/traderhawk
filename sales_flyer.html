@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trader Hawk — Sales One-Pager</title>
+<style>
+  @media print {
+    body { margin: 0; padding: 0; }
+    .page { box-shadow: none; border: none; margin: 0; }
+    .no-print { display: none; }
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #e8ecf0;
+    color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    background: #fff;
+    padding: 0.5in;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    padding: 24px 28px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-left h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .header-left h1 span { color: #d4a853; }
+  .header-left p { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  .header-right { text-align: right; font-size: 12px; color: rgba(255,255,255,0.6); }
+  .header-right strong { color: #d4a853; display: block; font-size: 13px; }
+
+  /* ── Tagline ── */
+  .tagline {
+    text-align: center;
+    padding: 14px 0 18px;
+    border-bottom: 2px solid #f0f4f8;
+    margin-bottom: 18px;
+  }
+  .tagline h2 { font-size: 18px; font-weight: 700; color: #203a43; }
+  .tagline p { font-size: 12px; color: #888; margin-top: 4px; }
+
+  /* ── Two columns ── */
+  .two-col { display: flex; gap: 20px; margin-bottom: 16px; }
+  .col { flex: 1; }
+
+  /* ── Feature list ── */
+  .feature-section h3 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #2c5364; margin-bottom: 10px;
+    padding-bottom: 4px; border-bottom: 2px solid #e0e5ea;
+  }
+  .feature-list { list-style: none; }
+  .feature-list li {
+    font-size: 12px; padding: 5px 0; padding-left: 18px;
+    position: relative; color: #444; border-bottom: 1px solid #f8f8f8;
+  }
+  .feature-list li::before {
+    content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: 700; font-size: 13px;
+  }
+
+  /* ── How it works ── */
+  .how-section {
+    background: #f8fafb; border-radius: 8px; padding: 16px 18px; margin-bottom: 16px;
+  }
+  .how-section h3 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #203a43; margin-bottom: 10px;
+  }
+  .how-steps { display: flex; gap: 12px; }
+  .how-step { flex: 1; text-align: center; }
+  .how-step .num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #2c5364, #203a43);
+    color: #fff; font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 6px;
+  }
+  .how-step h4 { font-size: 11px; font-weight: 700; color: #203a43; margin-bottom: 3px; }
+  .how-step p { font-size: 10px; color: #888; line-height: 1.4; }
+
+  /* ── iMessage demo ── */
+  .demo-section {
+    border: 1px solid #e0e5ea; border-radius: 10px; overflow: hidden; margin-bottom: 16px;
+  }
+  .demo-header {
+    background: #f0f4f8; padding: 8px 14px; font-size: 11px; font-weight: 600; color: #6b7280;
+    border-bottom: 1px solid #e0e5ea; text-align: center;
+  }
+  .demo-body { padding: 12px 14px; }
+  .demo-msg { max-width: 75%; padding: 7px 11px; border-radius: 14px; margin-bottom: 6px; font-size: 11px; line-height: 1.4; clear: both; }
+  .demo-user { background: #007aff; color: #fff; float: right; border-bottom-right-radius: 3px; }
+  .demo-bot { background: #f0f4f8; color: #1a1a1a; float: left; border-bottom-left-radius: 3px; }
+  .demo-bot strong { color: #2c5364; }
+  .demo-clear { clear: both; }
+
+  /* ── Metrics ── */
+  .metrics-bar {
+    display: flex; gap: 12px; margin-bottom: 16px;
+  }
+  .metric-box {
+    flex: 1; text-align: center; padding: 12px 8px;
+    background: #f8fafb; border: 1px solid #e0e5ea; border-radius: 8px;
+  }
+  .metric-box .num { font-size: 22px; font-weight: 800; color: #203a43; display: block; }
+  .metric-box .label { font-size: 10px; color: #888; }
+
+  /* ── Pricing ── */
+  .pricing-section { margin-bottom: 16px; }
+  .pricing-section h3 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #203a43; margin-bottom: 10px;
+    text-align: center;
+  }
+  .price-boxes { display: flex; gap: 16px; }
+  .price-box {
+    flex: 1; border: 2px solid #e0e5ea; border-radius: 10px;
+    padding: 16px; text-align: center;
+  }
+  .price-box.featured { border-color: #d4a853; }
+  .price-box h4 { font-size: 14px; font-weight: 700; color: #203a43; margin-bottom: 4px; }
+  .price-box .setup { font-size: 11px; color: #888; }
+  .price-box .amount { font-size: 28px; font-weight: 800; color: #203a43; }
+  .price-box .period { font-size: 11px; color: #888; margin-bottom: 8px; }
+  .price-box .inc { font-size: 10px; color: #6b7280; text-align: left; line-height: 1.6; }
+
+  /* ── Testimonial ── */
+  .testimonial {
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    color: #fff; border-radius: 8px;
+    padding: 16px 20px; text-align: center; margin-bottom: 16px;
+  }
+  .testimonial blockquote { font-size: 12px; font-style: italic; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 8px; }
+  .testimonial .author { font-size: 11px; color: #d4a853; font-weight: 600; }
+
+  /* ── CTA ── */
+  .cta-bar {
+    background: #d4a853; color: #0f2027; border-radius: 8px;
+    padding: 14px 20px; text-align: center; margin-top: auto;
+  }
+  .cta-bar h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .cta-bar p { font-size: 12px; }
+
+  /* Print button */
+  .print-btn {
+    position: fixed; top: 20px; right: 20px;
+    background: #203a43; color: #fff; border: none;
+    padding: 10px 20px; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer;
+  }
+  .print-btn:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Print</button>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Trader <span>Hawk</span></h1>
+      <p>AI-Powered Marketing for Real Estate Agents</p>
+    </div>
+    <div class="header-right">
+      <strong>akastevehawkins@gmail.com</strong><br>
+      <strong>(262) 498-7036</strong><br>
+      Book a free 15-min demo
+    </div>
+  </div>
+
+  <!-- TAGLINE -->
+  <div class="tagline">
+    <h2>Your Entire Marketing Team — in a Text Message</h2>
+    <p>Post to Facebook & Instagram, generate content, manage email & calendar — all by texting your AI assistant via iMessage.</p>
+  </div>
+
+  <!-- TWO COLUMNS: Features + Demo -->
+  <div class="two-col">
+    <div class="col feature-section">
+      <h3>What's Included</h3>
+      <ul class="feature-list">
+        <li>24/7 AI assistant via iMessage</li>
+        <li>Facebook + Instagram auto-posting</li>
+        <li>AI content & image generation</li>
+        <li>Content calendar & weekly plans</li>
+        <li>Print-ready flyer builder</li>
+        <li>Gmail, Calendar, Docs integration</li>
+        <li>Google Forms & survey builder</li>
+        <li>Contract & inspection review</li>
+        <li>Competitor monitoring & inspiration</li>
+        <li>Style learning (adapts to your voice)</li>
+        <li>Marketing coaching & tips on demand</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="demo-section">
+        <div class="demo-header">🤖 What it looks like</div>
+        <div class="demo-body">
+          <div class="demo-msg demo-user">fb idea spring market</div>
+          <div class="demo-clear"></div>
+          <div class="demo-msg demo-bot"><strong>💡 Post Idea:</strong> "5 Things Every Buyer Should Know This Spring" — Want me to write it + create an image?</div>
+          <div class="demo-clear"></div>
+          <div class="demo-msg demo-user">go</div>
+          <div class="demo-clear"></div>
+          <div class="demo-msg demo-bot"><strong>✅ Published to Facebook!</strong> 🖼️ AI image attached</div>
+          <div class="demo-clear"></div>
+          <div class="demo-msg demo-user">fb plan 7</div>
+          <div class="demo-clear"></div>
+          <div class="demo-msg demo-bot"><strong>📅 Your 7-day plan:</strong><br>Mon: Market update<br>Tue: Buyer tips<br>Wed: New listing<br>Thu: Fun fact<br>Fri: Open house promo</div>
+          <div class="demo-clear"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <h3>How It Works</h3>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="num">1</div>
+        <h4>We Set It Up</h4>
+        <p>We connect your social accounts, email & calendar. 2-3 day setup.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">2</div>
+        <h4>You Text It</h4>
+        <p>No apps. No dashboards. Just text what you need via iMessage.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">3</div>
+        <h4>Approve & Publish</h4>
+        <p>AI shows a preview. Say "go" to publish. You always have final say.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">4</div>
+        <h4>It Gets Smarter</h4>
+        <p>Learns your voice from edits. Within a week, drafts barely need changes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-bar">
+    <div class="metric-box">
+      <span class="num">95%</span>
+      <span class="label">Less time on marketing</span>
+    </div>
+    <div class="metric-box">
+      <span class="num">40%</span>
+      <span class="label">Follower growth (month 1)</span>
+    </div>
+    <div class="metric-box">
+      <span class="num">5×</span>
+      <span class="label">More posts per week</span>
+    </div>
+    <div class="metric-box">
+      <span class="num">$0</span>
+      <span class="label">On extra marketing tools</span>
+    </div>
+  </div>
+
+  <!-- TESTIMONIAL -->
+  <div class="testimonial">
+    <blockquote>"I used to spend 2 hours a day on social media. Now I text my assistant while I'm at showings and my pages are more active than ever. My followers grew 40% in the first month."</blockquote>
+    <div class="author">— Kimberly Warner, Epique Realty, Racine WI</div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-section">
+    <h3>Done-For-You Pricing</h3>
+    <div class="price-boxes">
+      <div class="price-box">
+        <h4>Standard</h4>
+        <div class="setup">$2,999 one-time setup</div>
+        <div class="amount">$79</div>
+        <div class="period">/month</div>
+        <div class="inc">Dedicated Mac Mini · All features included · Social posting · AI content · Flyers · Forms · Email & calendar · Style learning · Support</div>
+      </div>
+      <div class="price-box featured">
+        <h4>Premium ⭐</h4>
+        <div class="setup">$4,499 one-time setup</div>
+        <div class="amount">$99</div>
+        <div class="period">/month</div>
+        <div class="inc">Everything in Standard + Move Predictor intelligence · Monthly strategy call · Priority support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <h3>Book Your Free 15-Minute Demo →</h3>
+    <p>akastevehawkins@gmail.com · (262) 498-7036 · See it working with your accounts, live. No commitment.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
