@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trader Hawk for Team Leaders — AI That Reviews Like You Do</title>
+<meta name="description" content="Stop spending hours reviewing contracts, coaching agents, and answering the same questions. Trader Hawk trains an AI on your standards — so it reviews work exactly the way you would.">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Variables · Broker Market (Emerald/Copper) ── */
+  :root {
+    --navy: #0b1f1a;
+    --navy-mid: #14352b;
+    --navy-light: #1e5a47;
+    --gold: #c77b3f;
+    --gold-light: #e8a96a;
+    --green: #27ae60;
+    --white: #ffffff;
+    --gray-50: #f7faf9;
+    --gray-100: #eef4f1;
+    --gray-200: #dce5e1;
+    --gray-500: #5f7a6f;
+    --gray-700: #2d4a3e;
+    --gray-900: #1a1a1a;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --max-w: 1120px;
+    --radius: 12px;
+  }
+
+  body { font-family: var(--font); color: var(--gray-900); line-height: 1.6; background: var(--white); }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+  /* ── Nav ── */
+  .nav {
+    background: var(--navy);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { color: var(--white); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--gold); }
+  .nav-badge { color: var(--gold-light); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-left: 10px; background: rgba(199,123,63,0.2); padding: 3px 10px; border-radius: 999px; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.9; }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
+    color: var(--white);
+    padding: 80px 0 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(transparent, var(--white));
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(199,123,63,0.2);
+    border: 1px solid rgba(199,123,63,0.4);
+    color: var(--gold-light);
+    padding: 6px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    max-width: 640px;
+    margin: 0 auto 32px;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 16px 40px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(199,123,63,0.3);
+  }
+  .hero-sub {
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── Social proof bar ── */
+  .proof-bar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 20px 0;
+    text-align: center;
+  }
+  .proof-bar p {
+    font-size: 15px;
+    color: var(--gray-500);
+  }
+  .proof-bar strong { color: var(--navy-mid); }
+
+  /* ── Problem / Solution ── */
+  .problem {
+    padding: 80px 0;
+    text-align: center;
+  }
+  .problem h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 16px;
+  }
+  .problem p {
+    font-size: 17px;
+    color: var(--gray-500);
+    max-width: 640px;
+    margin: 0 auto 40px;
+  }
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    text-align: left;
+  }
+  .pain-card {
+    padding: 24px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+  }
+  .pain-card .icon { font-size: 28px; margin-bottom: 12px; }
+  .pain-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--navy-mid); }
+  .pain-card p { font-size: 14px; color: var(--gray-500); line-height: 1.5; }
+
+  /* ── The Shift ── */
+  .shift {
+    padding: 80px 0;
+    background: var(--gray-50);
+    text-align: center;
+  }
+  .shift h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 12px;
+  }
+  .shift .subtitle {
+    font-size: 17px;
+    color: var(--gray-500);
+    max-width: 640px;
+    margin: 0 auto 40px;
+  }
+  .shift-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--white);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: left;
+  }
+  .shift-box h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy-mid);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .shift-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .shift-col h4 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--gray-200);
+  }
+  .shift-col.before h4 { color: #c0392b; }
+  .shift-col.after h4 { color: var(--green); }
+  .shift-col ul { list-style: none; }
+  .shift-col ul li {
+    font-size: 14px;
+    color: var(--gray-700);
+    padding: 6px 0;
+    padding-left: 22px;
+    position: relative;
+  }
+  .shift-col.before ul li::before { content: "✗"; position: absolute; left: 0; color: #c0392b; font-weight: 700; }
+  .shift-col.after ul li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+
+  /* ── Features ── */
+  .features {
+    padding: 80px 0;
+  }
+  .features .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .features .section-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 12px;
+  }
+  .features .section-header p {
+    font-size: 16px;
+    color: var(--gray-500);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .feature-card .icon { font-size: 32px; margin-bottom: 14px; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; color: var(--navy-mid); margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+  .feature-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .feature-tag {
+    background: rgba(30,90,71,0.08);
+    color: var(--navy-light);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ── How It Works ── */
+  .how-it-works { padding: 80px 0; background: var(--gray-50); }
+  .how-it-works h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 12px;
+  }
+  .how-it-works .subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: var(--gray-500);
+    margin-bottom: 48px;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+  }
+  .step {
+    text-align: center;
+    position: relative;
+  }
+  .step-num {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0 auto 16px;
+  }
+  .step h3 { font-size: 17px; font-weight: 700; color: var(--navy-mid); margin-bottom: 8px; }
+  .step p { font-size: 14px; color: var(--gray-500); max-width: 260px; margin: 0 auto; }
+
+  /* ── Demo Section ── */
+  .demo-preview {
+    padding: 80px 0;
+  }
+  .demo-preview h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 12px;
+  }
+  .demo-preview .subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: var(--gray-500);
+    margin-bottom: 40px;
+  }
+  .imessage-demo {
+    max-width: 420px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .imessage-header {
+    background: var(--gray-100);
+    padding: 14px 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .imessage-body { padding: 20px; }
+  .msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    clear: both;
+  }
+  .msg-user {
+    background: #007aff;
+    color: var(--white);
+    float: right;
+    border-bottom-right-radius: 4px;
+  }
+  .msg-bot {
+    background: var(--gray-100);
+    color: var(--gray-900);
+    float: left;
+    border-bottom-left-radius: 4px;
+  }
+  .msg-bot em { font-style: normal; color: var(--navy-light); font-weight: 600; }
+  .msg-clear { clear: both; }
+
+  /* ── Time Calculator ── */
+  .calculator {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: var(--white);
+  }
+  .calculator h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .calculator .subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .calc-item {
+    text-align: center;
+    padding: 24px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius);
+  }
+  .calc-item .number {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .calc-item .label { font-size: 14px; color: rgba(255,255,255,0.7); }
+  .calc-total {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 32px;
+    background: rgba(199,123,63,0.15);
+    border: 1px solid rgba(199,123,63,0.3);
+    border-radius: 16px;
+  }
+  .calc-total .big-number {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .calc-total p { font-size: 16px; color: rgba(255,255,255,0.8); }
+
+  /* ── Pricing ── */
+  .pricing { padding: 80px 0; }
+  .pricing h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 8px;
+  }
+  .pricing .subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: var(--gray-500);
+    margin-bottom: 48px;
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .price-card {
+    border: 2px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 36px 28px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .price-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
+  .price-card.featured {
+    border-color: var(--gold);
+    box-shadow: 0 4px 24px rgba(199,123,63,0.15);
+  }
+  .price-card.featured::before {
+    content: "BEST FOR TEAMS";
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 18px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+  .price-card h3 { font-size: 20px; font-weight: 700; color: var(--navy-mid); margin-bottom: 8px; }
+  .price-card .setup {
+    font-size: 14px;
+    color: var(--gray-500);
+    margin-bottom: 4px;
+  }
+  .price-card .amount {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--navy-mid);
+  }
+  .price-card .period {
+    font-size: 14px;
+    color: var(--gray-500);
+    margin-bottom: 24px;
+  }
+  .price-card ul {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 28px;
+  }
+  .price-card ul li {
+    font-size: 14px;
+    color: var(--gray-700);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-100);
+    padding-left: 24px;
+    position: relative;
+  }
+  .price-card ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-weight: 700;
+  }
+  .price-card .card-cta {
+    display: block;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+  .price-card .card-cta:hover { opacity: 0.9; }
+  .price-card .card-cta.primary {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .price-card .card-cta.secondary {
+    background: var(--gray-100);
+    color: var(--navy-mid);
+  }
+
+  /* ── FAQ ── */
+  .faq {
+    padding: 80px 0;
+    background: var(--gray-50);
+  }
+  .faq h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy-mid);
+    margin-bottom: 40px;
+  }
+  .faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--gray-200);
+    padding: 20px 0;
+  }
+  .faq-item summary {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy-mid);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-item summary::after { content: "+"; font-size: 22px; color: var(--gray-500); }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item p {
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--gray-500);
+    line-height: 1.7;
+  }
+
+  /* ── Final CTA ── */
+  .final-cta {
+    padding: 80px 0;
+    text-align: center;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: var(--white);
+  }
+  .final-cta h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .final-cta p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+  .final-cta .hero-cta { display: inline-block; }
+  .guarantee {
+    margin-top: 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 32px 0;
+    text-align: center;
+    border-top: 1px solid var(--gray-200);
+  }
+  .footer p { font-size: 13px; color: var(--gray-500); }
+  .footer a { color: var(--navy-light); text-decoration: underline; }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding: 60px 0 50px; }
+    .pain-grid, .feature-grid, .steps, .calc-grid, .price-grid, .shift-comparison {
+      grid-template-columns: 1fr;
+    }
+    .features, .how-it-works, .pricing, .calculator, .faq, .final-cta, .problem, .demo-preview, .shift {
+      padding: 60px 0;
+    }
+    .price-card { margin-bottom: 16px; }
+    .price-card .card-cta { margin-bottom: 8px; }
+    .final-cta { padding-top: 80px; }
+    .hero-cta + .hero-sub { margin-top: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav-logo">Trader <span>Hawk</span> <span class="nav-badge">Team Leader</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#book-demo" class="nav-cta">Book a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">AI for Managing Brokers & Team Leaders</div>
+    <h1>What If Your AI Reviewed Contracts <em>Exactly the Way You Would?</em></h1>
+    <p>Stop spending nights reviewing agent paperwork, answering the same compliance questions, and catching the same mistakes. Train an AI on your standards — it coaches your agents so you don't have to.</p>
+    <a href="#book-demo" class="hero-cta">Book Your Free Demo →</a>
+    <p class="hero-sub">15-minute live walkthrough · No commitment · Built for teams of 5–50 agents</p>
+  </div>
+</section>
+
+<!-- ═══════ SOCIAL PROOF ═══════ -->
+<div class="proof-bar">
+  <div class="container">
+    <p><strong>Built by a broker who got tired of re-reading the same rider clauses at midnight.</strong> If you've ever thought "I already told them this" — this is for you.</p>
+  </div>
+</div>
+
+<!-- ═══════ PROBLEM ═══════ -->
+<section class="problem">
+  <div class="container">
+    <h2>You Didn't Become a Broker to Be a 24/7 Help Desk</h2>
+    <p>Does any of this sound like your Tuesday?</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="icon">📋</div>
+        <h3>Reviewing Every Single Contract</h3>
+        <p>Offer to purchase, counter-offers, amendments, addenda — every agent's paperwork crosses your desk. You're the bottleneck and the safety net.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">🔁</div>
+        <h3>Answering the Same Questions</h3>
+        <p>"Can I use this contingency?" "What's the earnest money deadline?" "Is this rider right?" The same 20 questions from different agents, every single week.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">⏰</div>
+        <h3>10+ Hours a Week on Agent Support</h3>
+        <p>Between contract reviews, compliance checks, coaching calls, and fixing mistakes — you're spending half your week doing work that doesn't grow your business.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">😤</div>
+        <h3>Catching Mistakes After the Fact</h3>
+        <p>A missing disclosure. A wrong date. An unapproved addendum. By the time you see it, it's already been sent to the other side. Now it's a fire drill.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ THE SHIFT ═══════ -->
+<section class="shift">
+  <div class="container">
+    <h2>How Is This Even Possible?</h2>
+    <p class="subtitle">Trader Hawk learns your review patterns, your standards, your pet peeves — then applies them to every document your agents submit. Here's what changes:</p>
+
+    <div class="shift-box">
+      <h3>Your Week: Before vs. After</h3>
+      <div class="shift-comparison">
+        <div class="shift-col before">
+          <h4>Before Trader Hawk</h4>
+          <ul>
+            <li>Read every contract line-by-line yourself</li>
+            <li>Answer the same questions via text all day</li>
+            <li>Catch errors after they've been submitted</li>
+            <li>Coach agents one-on-one repeatedly</li>
+            <li>10+ hrs/week on paperwork review</li>
+            <li>Miss family dinners for midnight reviews</li>
+          </ul>
+        </div>
+        <div class="shift-col after">
+          <h4>After Trader Hawk</h4>
+          <ul>
+            <li>AI pre-screens every contract against your checklist</li>
+            <li>Agents get instant answers from your trained AI</li>
+            <li>Errors flagged before paperwork leaves the office</li>
+            <li>AI coaches in your voice with your standards</li>
+            <li>Review only the exceptions and edge cases</li>
+            <li>Get your evenings back — for good</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FEATURES ═══════ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Your Standards. Your Voice. Running 24/7.</h2>
+      <p>Trader Hawk doesn't replace your judgment — it extends it. Every feature is trained on how <em>you</em> actually work.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">📝</div>
+        <h3>AI Contract Pre-Review</h3>
+        <p>Agents text their contracts to your team's AI assistant. It checks against your review checklist: correct dates, required disclosures, proper contingencies, accurate math. Flags issues before they reach your desk.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Offers</span>
+          <span class="feature-tag">Counter-Offers</span>
+          <span class="feature-tag">Amendments</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🎓</div>
+        <h3>Agent Coaching on Demand</h3>
+        <p>"Can I use a financing contingency here?" Your agents text the question — AI responds with your brokerage's guidance, citing the specific clause or policy. No more waiting for you to be free.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Compliance Q&A</span>
+          <span class="feature-tag">Policy Guidance</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🔍</div>
+        <h3>Disclosure & Compliance Checker</h3>
+        <p>Upload any document — inspection reports, seller disclosures, HOA docs. AI reads it in seconds, gives a plain-English summary, and calls out anything that doesn't match your standards.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Inspections</span>
+          <span class="feature-tag">Disclosures</span>
+          <span class="feature-tag">HOA Docs</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Red Flag Alerts</h3>
+        <p>Missing earnest money deadline? Inspection contingency waived without approval? AI catches it instantly and alerts both the agent and you — before the document goes out.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Auto-Alerts</span>
+          <span class="feature-tag">Error Prevention</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🧠</div>
+        <h3>Learns Your Standards</h3>
+        <p>Every correction you make teaches the AI. "We always require a home warranty on properties over 20 years old." Say it once — the AI remembers it forever and applies it to every future review.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Adaptive AI</span>
+          <span class="feature-tag">Your Playbook</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">�</div>
+        <h3>Proactive Showing Support</h3>
+        <p>The AI reads your agents' Google Calendars. Ten minutes into a showing, it texts them with comps, neighborhood stats, and a contract template for that address — without them asking. Your agents look prepared because they are.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Calendar-Aware</span>
+          <span class="feature-tag">Auto-Suggest</span>
+          <span class="feature-tag">Agent Enablement</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">�📊</div>
+        <h3>Team Activity Dashboard</h3>
+        <p>See which agents are submitting, what errors are most common, and where coaching is needed most. Text "team report" and get a summary of the week's activity.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Agent Analytics</span>
+          <span class="feature-tag">Error Trends</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Works via iMessage</h3>
+        <p>No portals, no logins, no training sessions. Your agents text the AI like they'd text you. It responds in seconds. 24/7 availability — even at 11pm when your new agent has a question about an escalation clause.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">iMessage</span>
+          <span class="feature-tag">24/7</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>Your Data, Your Hardware</h3>
+        <p>Everything runs on a dedicated Mac Mini in your office or ours. No shared cloud databases. Your agents' contracts never touch third-party servers. Enterprise-grade security without enterprise pricing.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Dedicated Hardware</span>
+          <span class="feature-tag">Private & Secure</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ HOW IT WORKS ═══════ -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <h2>Up and Running in One Week</h2>
+    <p class="subtitle">We train the AI on your actual standards. Here's the process:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Share Your Playbook</h3>
+        <p>Send us your review checklist, preferred addenda, common corrections, and any "if I've told them once" pet peeves. We feed it all to the AI.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>We Train the AI</h3>
+        <p>We configure a dedicated AI assistant that reviews contracts, answers questions, and coaches agents — using your exact language and standards.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Agents Start Texting</h3>
+        <p>Your team gets an iMessage number. They text contracts, ask questions, get instant feedback. You get notified only when something needs your actual attention.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>It Gets Sharper</h3>
+        <p>Every correction you make fine-tunes the AI. Within two weeks, it catches things your agents consistently miss. Within a month, it's reviewing like your best version of yourself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ DEMO / iMESSAGE PREVIEW ═══════ -->
+<section class="demo-preview">
+  <div class="container">
+    <h2>See What Your Agents Experience</h2>
+    <p class="subtitle">This is a real conversation flow. Agent texts in → AI responds with your standards.</p>
+
+    <div class="imessage-demo">
+      <div class="imessage-header">🤖 Broker Review AI</div>
+      <div class="imessage-body">
+        <div class="msg msg-user">review this offer [📎 Johnson_Offer.pdf]</div>
+        <div class="msg-clear"></div>
+        <div class="msg msg-bot">
+          <em>📋 Contract Review Complete:</em><br><br>
+          ✅ Purchase price & earnest money — correct<br>
+          ✅ Financing contingency — 21 days, within policy<br>
+          ⚠️ <strong>Missing:</strong> Lead paint disclosure (property built 1978)<br>
+          ⚠️ <strong>Flag:</strong> Inspection contingency only 5 days — broker policy requires minimum 10<br><br>
+          Fix these two items before submitting. Need help with the lead paint form?
+        </div>
+        <div class="msg-clear"></div>
+        <div class="msg msg-user">yes send me the form</div>
+        <div class="msg-clear"></div>
+        <div class="msg msg-bot">
+          <em>📄 Sent:</em> WI Lead Paint Disclosure (WB-4)<br><br>
+          Reminder: Seller must complete Section 1 before buyer signs. Let me know when it's ready and I'll do a final check.
+        </div>
+        <div class="msg-clear"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TIME CALCULATOR ═══════ -->
+<section class="calculator">
+  <div class="container">
+    <h2>The Math on Getting Your Time Back</h2>
+    <p class="subtitle">Here's what a typical team leader spends on agent support each week — and what you get back.</p>
+
+    <div class="calc-grid">
+      <div class="calc-item">
+        <span class="number">4 hrs</span>
+        <span class="label">Reviewing contracts</span>
+      </div>
+      <div class="calc-item">
+        <span class="number">3 hrs</span>
+        <span class="label">Answering agent questions</span>
+      </div>
+      <div class="calc-item">
+        <span class="number">2 hrs</span>
+        <span class="label">Fixing errors & fire drills</span>
+      </div>
+      <div class="calc-item">
+        <span class="number">1.5 hrs</span>
+        <span class="label">Compliance coaching</span>
+      </div>
+    </div>
+
+    <div class="calc-total">
+      <span class="big-number">10.5 hrs/week</span>
+      <p>That's <strong>546 hours a year</strong> — almost 14 full work weeks — spent on repetitive review that an AI trained on your standards can handle. What would you do with 14 extra weeks?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PRICING ═══════ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>Team Leader Pricing</h2>
+    <p class="subtitle">One setup. One AI. Handles your entire team's review and coaching needs.</p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Standard</h3>
+        <div class="setup">$2,999 one-time setup</div>
+        <div class="amount">$79</div>
+        <div class="period">/month per team</div>
+        <ul>
+          <li>Dedicated Mac Mini (hardware included)</li>
+          <li>AI contract pre-review engine</li>
+          <li>Trained on your review checklist & standards</li>
+          <li>Agent coaching Q&A via iMessage</li>
+          <li>Disclosure & compliance checking</li>
+          <li>Red flag alerts to you + agent</li>
+          <li>Document summary & plain-English explanations</li>
+          <li>Up to 10 agents on single team number</li>
+          <li>Email + text support</li>
+        </ul>
+        <a href="#book-demo" class="card-cta secondary">Book a Demo →</a>
+      </div>
+
+      <div class="price-card featured">
+        <h3>Premium</h3>
+        <div class="setup">$4,499 one-time setup</div>
+        <div class="amount">$99</div>
+        <div class="period">/month per team</div>
+        <ul>
+          <li>Everything in Standard</li>
+          <li>Up to 50 agents on team number</li>
+          <li>Team activity dashboard & error analytics</li>
+          <li>Custom policy rule engine</li>
+          <li>Monthly strategy call with us</li>
+          <li>Priority support + same-day response</li>
+        </ul>
+        <a href="#book-demo" class="card-cta primary">Book a Demo →</a>
+      </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 32px; font-size: 14px; color: var(--gray-500);">
+      <strong>Founding member pricing:</strong> First 5 teams get 25% off setup. <br>
+      Setup includes dedicated hardware, full AI training on your standards, and onboarding for your entire team.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>How does the AI learn my review standards?</summary>
+        <p>During setup, you share your review checklist, preferred forms, common corrections, and any "rules of the house." We train the AI on all of it. Then every time you correct the AI or override a recommendation, it learns and adjusts. Within two weeks it's reviewing like you — within a month it's catching things you'd miss at midnight.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Do my agents need to install anything?</summary>
+        <p>No. Everything works through iMessage. Your agents text contracts and questions to a dedicated number. No apps, no portals, no passwords. If they can text, they can use it.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can the AI make decisions on my behalf?</summary>
+        <p>Never. The AI flags issues, suggests corrections, and coaches agents — but it never approves, submits, or sends anything without a human in the loop. You set the rules, the AI enforces them. Final judgment is always yours.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What if an agent sends something the AI can't handle?</summary>
+        <p>The AI knows its limits. If a contract has unusual terms, an unfamiliar addendum, or anything outside your training data, it escalates directly to you with a summary of what it found and what it's unsure about. You only see the hard stuff.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is my agents' contract data secure?</summary>
+        <p>Everything runs on dedicated hardware — not shared cloud infrastructure. Your agents' contracts are processed locally and never stored on third-party servers. We encrypt all data at rest and in transit. When you cancel, we wipe everything within 7 days.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How many agents can use it?</summary>
+        <p>Standard supports up to 10 agents. Premium supports up to 50. If you have a larger team, contact us for custom pricing. Every agent texts the same number — no individual setup required.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What happens if I cancel?</summary>
+        <p>30-day notice, and we deactivate the AI. All your training data and standards remain yours — we can export them. We delete all stored documents within 7 days. No penalty, no hard feelings.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can it handle Wisconsin-specific forms?</summary>
+        <p>Yes. We pre-train on all standard WB forms (WB-11, WB-4, WB-14, etc.) and Wisconsin-specific disclosure requirements. During your setup, we layer on your brokerage's specific preferences.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FINAL CTA ═══════ -->
+<section class="final-cta" id="book-demo">
+  <div class="container">
+    <h2>Get Your Time Back. Get Your Life Back.</h2>
+    <p>Book a free 15-minute demo. We'll show you how the AI reviews a real contract using your standards — live. See exactly what your agents would experience.</p>
+    <!-- TODO: Replace with Calendly or Cal.com link -->
+    <a href="mailto:akastevehawkins@gmail.com?subject=Trader%20Hawk%20Team%20Leader%20Demo%20Request&body=Hi%2C%20I'm%20interested%20in%20a%20demo%20of%20Trader%20Hawk%20for%20my%20team.%0A%0AName%3A%0ABrokerage%3A%0ANumber%20of%20agents%3A%0AMarket%20area%3A%0ABest%20time%20to%20call%3A" class="hero-cta">Book Your Free Demo →</a>
+    <p class="guarantee">Free demo · No credit card required · See it review a real contract in 15 minutes</p>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <p>Trader Hawk · AI for Real Estate Team Leaders · Built by <a href="mailto:akastevehawkins@gmail.com">Steve Hawkins</a> · (262) 498-7036</p>
+    <p style="margin-top: 6px;"><a href="privacy_policy.html">Privacy Policy</a> · <a href="terms_of_service.html">Terms of Service</a> · <a href="landing_page.html">For Individual Agents →</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
