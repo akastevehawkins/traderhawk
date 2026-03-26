@@ -9,7 +9,7 @@
   /* ── Reset ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── Variables ── */
+  /* ── Variables · Agent Market (Navy/Gold) ── */
   :root {
     --navy: #0f2027;
     --navy-mid: #203a43;
@@ -554,14 +554,6 @@
   }
 
   /* ── Footer ── */
-  .industries { padding: 80px 0; background: var(--gray-50); }
-  .industries h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 12px; }
-  .industries .subtitle { text-align: center; font-size: 16px; color: var(--gray-500); margin-bottom: 40px; }
-  .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto; }
-  .industry-link { display: block; padding: 20px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); text-align: center; font-weight: 600; color: var(--navy-mid); transition: transform 0.2s, box-shadow 0.2s; }
-  .industry-link:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-  .industry-link .icon { font-size: 32px; display: block; margin-bottom: 8px; }
-
   .footer {
     padding: 32px 0;
     text-align: center;
@@ -577,10 +569,13 @@
     .pain-grid, .feature-grid, .steps, .case-metrics, .price-grid {
       grid-template-columns: 1fr;
     }
-    .features, .how-it-works, .pricing, .case-study, .faq, .final-cta, .problem, .demo-preview, .industries {
+    .features, .how-it-works, .pricing, .case-study, .faq, .final-cta, .problem, .demo-preview {
       padding: 60px 0;
     }
-    .industry-grid { grid-template-columns: repeat(2, 1fr); }
+    .price-card { margin-bottom: 16px; }
+    .price-card .card-cta { margin-bottom: 8px; }
+    .final-cta { padding-top: 80px; }
+    .hero-cta + .hero-sub { margin-top: 18px; }
   }
 </style>
 </head>
@@ -593,10 +588,8 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#how-it-works">How It Works</a>
-      <a href="#industries">Industries</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
-      <a href="demo/" class="nav-cta" style="background:transparent;border:1px solid var(--gold);color:var(--gold);margin-right:8px;">Try Live Demo</a>
       <a href="#book-demo" class="nav-cta">Book a Demo</a>
     </div>
   </div>
@@ -609,8 +602,7 @@
     <h1>Your Entire Marketing Team — <em>in a Text Message</em></h1>
     <p>Post to social media, generate content, send emails, manage your calendar, and create flyers — all by texting your AI assistant. No apps. No dashboards. Just results.</p>
     <a href="#book-demo" class="hero-cta">Book Your Free Demo →</a>
-    <a href="demo/" class="hero-cta" style="background:transparent;border:2px solid var(--gold);color:var(--gold);margin-left:12px;">Try It Now →</a>
-    <p class="hero-sub">15-minute live demo · No commitment · See it work with your accounts</p>
+    <p class="hero-sub">15-minute live demo · No commitment · See real results in action</p>
   </div>
 </section>
 
@@ -745,8 +737,19 @@
 
       <div class="feature-card">
         <div class="icon">📍</div>
+        <h3>Proactive Showing Assistant</h3>
+        <p>At a showing? The AI knows — it reads your Google Calendar and texts you 10 minutes in with exactly what you need: comps for the property, neighborhood stats, a contract template, or a quick social post. You don't even have to ask.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Calendar-Aware</span>
+          <span class="feature-tag">Contextual Help</span>
+          <span class="feature-tag">Auto-Suggest</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🗺️</div>
         <h3>Local SEO Command Center</h3>
-        <p>Dominate Google in your zip code. AI generates review response templates, GBP posting calendars, photo strategies, and citation audits — all tuned to your exact service area.</p>
+        <p>Dominate your Google Business Profile. AI generates review response templates, posting calendars, photo strategies, and citation audits — all tuned to your exact service area.</p>
         <div class="feature-tags">
           <span class="feature-tag">Google Reviews</span>
           <span class="feature-tag">GBP Posts</span>
@@ -872,7 +875,6 @@
           <li>Google Forms & surveys</li>
           <li>Contract & document review</li>
           <li>Marketing coaching AI</li>
-          <li>Local SEO command center</li>
           <li>Email + text support</li>
         </ul>
         <a href="#book-demo" class="card-cta secondary">Book a Demo →</a>
@@ -951,30 +953,13 @@
   </div>
 </section>
 
-<!-- ═══════ INDUSTRIES ═══════ -->
-<section class="industries" id="industries">
-  <div class="container">
-    <h2>Not in Real Estate? We've Got You Covered.</h2>
-    <p class="subtitle">Trader Hawk adapts to any local business. See how it works for your industry.</p>
-    <div class="industry-grid">
-      <a href="restaurant/" class="industry-link"><span class="icon">🍽️</span>Restaurants</a>
-      <a href="contractor/" class="industry-link"><span class="icon">🔨</span>Contractors</a>
-      <a href="salon/" class="industry-link"><span class="icon">💇</span>Salons & Barbershops</a>
-      <a href="fitness/" class="industry-link"><span class="icon">💪</span>Gyms & Fitness</a>
-      <a href="retail/" class="industry-link"><span class="icon">🛍️</span>Retail & Boutiques</a>
-      <a href="general/" class="industry-link"><span class="icon">🏢</span>Any Small Business</a>
-    </div>
-  </div>
-</section>
-
 <!-- ═══════ FINAL CTA ═══════ -->
 <section class="final-cta" id="book-demo">
   <div class="container">
     <h2>Ready to Reclaim Your Time?</h2>
-    <p>Book a free 15-minute demo. We'll show you exactly how it works with your accounts, live. No pressure, no commitment.</p>
+    <p>Book a free 15-minute demo. We'll walk you through a live showcase — real posts, real workflows, real results. No pressure, no commitment.</p>
     <!-- TODO: Replace with Calendly or Cal.com link -->
     <a href="mailto:akastevehawkins@gmail.com?subject=Trader%20Hawk%20Demo%20Request&body=Hi%2C%20I'm%20interested%20in%20a%20demo%20of%20Trader%20Hawk%20for%20my%20real%20estate%20business.%0A%0AName%3A%0ABrokerage%3A%0AMarket%20area%3A%0ABest%20time%20to%20call%3A" class="hero-cta">Book Your Free Demo →</a>
-    <a href="demo/" class="hero-cta" style="background:transparent;border:2px solid var(--gold);color:var(--gold);margin-left:12px;">Try It Now →</a>
     <p class="guarantee">Free demo · No credit card required · See it working in 15 minutes</p>
   </div>
 </section>
@@ -983,7 +968,7 @@
 <footer class="footer">
   <div class="container">
     <p>Trader Hawk · AI-Powered Real Estate Marketing · Built by <a href="mailto:akastevehawkins@gmail.com">Steve Hawkins</a> · (262) 498-7036</p>
-    <p style="margin-top: 6px;"><a href="privacy_policy.html">Privacy Policy</a> · <a href="terms_of_service.html">Terms of Service</a></p>
+    <p style="margin-top: 6px;"><a href="privacy_policy.html">Privacy Policy</a> · <a href="terms_of_service.html">Terms of Service</a> · <a href="landing_page_broker.html">For Team Leaders & Brokers →</a></p>
   </div>
 </footer>
 
