@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trader Hawk — AI-Powered Restaurant Marketing Assistant</title>
+<meta name="description" content="Your 24/7 AI marketing assistant for restaurants. Post to social media, manage reviews, generate content — all from a text message. No apps. No dashboards.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0f2027; --navy-mid: #203a43; --navy-light: #2c5364;
+    --gold: #d4a853; --gold-light: #f0d78c; --green: #27ae60; --white: #ffffff;
+    --gray-50: #f8fafb; --gray-100: #f0f4f8; --gray-200: #e0e5ea;
+    --gray-500: #6b7280; --gray-700: #374151; --gray-900: #1a1a1a;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --max-w: 1120px; --radius: 12px;
+  }
+  body { font-family: var(--font); color: var(--gray-900); line-height: 1.6; background: var(--white); }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+  .nav { background: var(--navy); padding: 16px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { color: var(--white); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { background: var(--gold); color: var(--navy); padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; transition: opacity 0.2s; }
+  .nav-cta:hover { opacity: 0.9; }
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%); color: var(--white); padding: 80px 0 70px; text-align: center; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(transparent, var(--white)); }
+  .hero-badge { display: inline-block; background: rgba(212,168,83,0.2); border: 1px solid rgba(212,168,83,0.4); color: var(--gold-light); padding: 6px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 24px; }
+  .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.15; margin-bottom: 20px; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .hero p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto 32px; }
+  .hero-cta { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 40px; border-radius: 10px; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; transition: transform 0.2s, box-shadow 0.2s; }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,168,83,0.3); }
+  .hero-sub { margin-top: 14px; font-size: 13px; color: rgba(255,255,255,0.5); }
+  .proof-bar { background: var(--gray-50); border-bottom: 1px solid var(--gray-200); padding: 20px 0; text-align: center; }
+  .proof-bar p { font-size: 15px; color: var(--gray-500); }
+  .proof-bar strong { color: var(--navy-mid); }
+  .problem { padding: 80px 0; text-align: center; }
+  .problem h2 { font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 16px; }
+  .problem p { font-size: 17px; color: var(--gray-500); max-width: 640px; margin: 0 auto 40px; }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; text-align: left; }
+  .pain-card { padding: 24px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); }
+  .pain-card .icon { font-size: 28px; margin-bottom: 12px; }
+  .pain-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--navy-mid); }
+  .pain-card p { font-size: 14px; color: var(--gray-500); line-height: 1.5; }
+  .features { padding: 80px 0; background: var(--gray-50); }
+  .features .section-header { text-align: center; margin-bottom: 48px; }
+  .features .section-header h2 { font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 12px; }
+  .features .section-header p { font-size: 16px; color: var(--gray-500); max-width: 560px; margin: 0 auto; }
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .feature-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 28px 24px; transition: transform 0.2s, box-shadow 0.2s; }
+  .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .feature-card .icon { font-size: 32px; margin-bottom: 14px; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; color: var(--navy-mid); margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+  .feature-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .feature-tag { background: rgba(44,83,100,0.08); color: var(--navy-light); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .how-it-works { padding: 80px 0; }
+  .how-it-works h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 48px; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+  .step { text-align: center; position: relative; }
+  .step-num { width: 48px; height: 48px; background: linear-gradient(135deg, var(--navy-light), var(--navy-mid)); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; margin: 0 auto 16px; }
+  .step h3 { font-size: 17px; font-weight: 700; color: var(--navy-mid); margin-bottom: 8px; }
+  .step p { font-size: 14px; color: var(--gray-500); max-width: 260px; margin: 0 auto; }
+  .demo-preview { padding: 80px 0; background: var(--gray-50); }
+  .demo-preview h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 12px; }
+  .demo-preview .subtitle { text-align: center; font-size: 16px; color: var(--gray-500); margin-bottom: 40px; }
+  .imessage-demo { max-width: 420px; margin: 0 auto; background: var(--white); border-radius: 20px; border: 1px solid var(--gray-200); box-shadow: 0 8px 40px rgba(0,0,0,0.06); overflow: hidden; }
+  .imessage-header { background: var(--gray-100); padding: 14px 20px; text-align: center; font-weight: 600; font-size: 14px; color: var(--gray-700); border-bottom: 1px solid var(--gray-200); }
+  .imessage-body { padding: 20px; }
+  .msg { max-width: 80%; padding: 10px 14px; border-radius: 18px; margin-bottom: 10px; font-size: 14px; line-height: 1.5; clear: both; }
+  .msg-user { background: #007aff; color: var(--white); float: right; border-bottom-right-radius: 4px; }
+  .msg-bot { background: var(--gray-100); color: var(--gray-900); float: left; border-bottom-left-radius: 4px; }
+  .msg-bot em { font-style: normal; color: var(--navy-light); font-weight: 600; }
+  .msg-clear { clear: both; }
+  .case-study { padding: 80px 0; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); color: var(--white); }
+  .case-study h2 { text-align: center; font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+  .case-study .subtitle { text-align: center; font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 48px; }
+  .case-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin-bottom: 48px; }
+  .metric { text-align: center; padding: 24px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius); }
+  .metric .number { font-size: 36px; font-weight: 800; color: var(--gold); display: block; margin-bottom: 6px; }
+  .metric .label { font-size: 14px; color: rgba(255,255,255,0.7); }
+  .testimonial-block { max-width: 640px; margin: 0 auto; text-align: center; }
+  .testimonial-block blockquote { font-size: 18px; font-style: italic; line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
+  .testimonial-block .author { font-size: 15px; color: var(--gold); font-weight: 600; }
+  .testimonial-block .title { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .pricing { padding: 80px 0; }
+  .pricing h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 8px; }
+  .pricing .subtitle { text-align: center; font-size: 15px; color: var(--gray-500); margin-bottom: 48px; }
+  .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 800px; margin: 0 auto; }
+  .price-card { border: 2px solid var(--gray-200); border-radius: 16px; padding: 36px 28px; text-align: center; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+  .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .price-card.featured { border-color: var(--gold); box-shadow: 0 4px 24px rgba(212,168,83,0.15); }
+  .price-card.featured::before { content: "MOST POPULAR"; position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 4px 18px; border-radius: 20px; letter-spacing: 1px; }
+  .price-card h3 { font-size: 20px; font-weight: 700; color: var(--navy-mid); margin-bottom: 8px; }
+  .price-card .setup { font-size: 14px; color: var(--gray-500); margin-bottom: 4px; }
+  .price-card .amount { font-size: 44px; font-weight: 800; color: var(--navy-mid); }
+  .price-card .period { font-size: 14px; color: var(--gray-500); margin-bottom: 24px; }
+  .price-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
+  .price-card ul li { font-size: 14px; color: var(--gray-700); padding: 8px 0; border-bottom: 1px solid var(--gray-100); padding-left: 24px; position: relative; }
+  .price-card ul li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .price-card .card-cta { display: block; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; text-align: center; transition: opacity 0.2s; }
+  .price-card .card-cta:hover { opacity: 0.9; }
+  .price-card .card-cta.primary { background: var(--gold); color: var(--navy); }
+  .price-card .card-cta.secondary { background: var(--gray-100); color: var(--navy-mid); }
+  .faq { padding: 80px 0; background: var(--gray-50); }
+  .faq h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 40px; }
+  .faq-list { max-width: 720px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--gray-200); padding: 20px 0; }
+  .faq-item summary { font-size: 16px; font-weight: 600; color: var(--navy-mid); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .faq-item summary::after { content: "+"; font-size: 22px; color: var(--gray-500); }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item p { margin-top: 12px; font-size: 15px; color: var(--gray-500); line-height: 1.7; }
+  .final-cta { padding: 80px 0; text-align: center; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: var(--white); }
+  .final-cta h2 { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
+  .final-cta p { font-size: 17px; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto 32px; }
+  .final-cta .hero-cta { display: inline-block; }
+  .guarantee { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.5); }
+  .footer { padding: 32px 0; text-align: center; border-top: 1px solid var(--gray-200); }
+  .footer p { font-size: 13px; color: var(--gray-500); }
+  .footer a { color: var(--navy-light); text-decoration: underline; }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding: 60px 0 50px; }
+    .pain-grid, .feature-grid, .steps, .case-metrics, .price-grid { grid-template-columns: 1fr; }
+    .features, .how-it-works, .pricing, .case-study, .faq, .final-cta, .problem, .demo-preview { padding: 60px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav-logo">Trader <span>Hawk</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#book-demo" class="nav-cta">Book a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">AI-Powered Marketing for Restaurants</div>
+    <h1>Your Entire Marketing Team — <em>in a Text Message</em></h1>
+    <p>Post daily specials, respond to reviews, fill slow nights, and keep your social pages buzzing — all by texting your AI assistant. No apps. No dashboards. Just butts in seats.</p>
+    <a href="#book-demo" class="hero-cta">Book Your Free Demo →</a>
+    <p class="hero-sub">15-minute live demo · No commitment · See it work with your accounts</p>
+  </div>
+</section>
+
+<div class="proof-bar">
+  <div class="container">
+    <p><strong>Built for independent restaurants and local food businesses.</strong> Powered by the same AI that runs Fortune 500 marketing.</p>
+  </div>
+</div>
+
+<section class="problem">
+  <div class="container">
+    <h2>You Opened a Restaurant to Cook — Not to Be a Social Media Manager</h2>
+    <p>Sound familiar?</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="icon">⏰</div>
+        <h3>No Time Between Services</h3>
+        <p>Between prep, lunch rush, and dinner — who has time to write Instagram captions? Marketing falls to "I'll do it later" and later never comes.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">😤</div>
+        <h3>Dead Nights Nobody Sees Coming</h3>
+        <p>Tuesday is empty again. You could've run a promo, but by the time you thought of it, it was already 4pm. Now you're paying staff to stand around.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">💸</div>
+        <h3>Reviews Piling Up Unanswered</h3>
+        <p>A 3-star review from last week is still sitting there. Every day you don't respond, potential customers see a business that doesn't care.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">🤷</div>
+        <h3>Same Food Photos, Zero Engagement</h3>
+        <p>You post a plate photo, get 12 likes, and wonder why you bothered. The algorithm buried you because you posted once this week instead of four times.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Everything You Need — From One Text Thread</h2>
+      <p>Trader Hawk connects to your social accounts, Google Business Profile, and email. You text commands (or just plain English). It handles the rest.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Social Media Autopilot</h3>
+        <p>Text "post about tonight's special — pan-seared walleye" — AI writes mouth-watering copy, generates a professional image, and publishes to Facebook + Instagram. Schedule a week of posts in one conversation.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Facebook</span>
+          <span class="feature-tag">Instagram</span>
+          <span class="feature-tag">Auto-Post</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🎨</div>
+        <h3>AI Image & Promo Studio</h3>
+        <p>Describe your special, event, or seasonal menu — AI creates scroll-stopping visuals in seconds. Social graphics, event flyers, and branded promo images. No designer needed.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">AI Images</span>
+          <span class="feature-tag">Event Flyers</span>
+          <span class="feature-tag">Promo Graphics</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">📧</div>
+        <h3>Email, Calendar & Docs</h3>
+        <p>Send emails, check your inbox, manage calendar events, create Google Docs — by text. "Email the Chamber about our catering menu" just works.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Gmail</span>
+          <span class="feature-tag">Calendar</span>
+          <span class="feature-tag">Google Docs</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">📋</div>
+        <h3>Smart Surveys & Forms</h3>
+        <p>"Create a customer satisfaction survey" — AI designs professional Google Forms with the right questions, ready to share via text or table tent QR code.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Google Forms</span>
+          <span class="feature-tag">Feedback</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🧠</div>
+        <h3>Learns Your Voice</h3>
+        <p>Every edit you make teaches the AI. After a few posts, it writes like you — casual and fun, or upscale and elegant. No two restaurants sound alike.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Adaptive AI</span>
+          <span class="feature-tag">Brand Voice</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">💡</div>
+        <h3>Inspiration Engine</h3>
+        <p>The AI monitors top-performing restaurant pages in your area, saves what's getting engagement, then builds you a custom content plan — inspired by winners but 100% original.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Content Ideas</span>
+          <span class="feature-tag">Competitor Intel</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🎯</div>
+        <h3>Marketing Coach</h3>
+        <p>Get personalized marketing tips: slow-night promo ideas, seasonal menu launches, holiday campaigns, and posting strategies curated for your restaurant's style and clientele.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Strategy</span>
+          <span class="feature-tag">Coaching</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">📍</div>
+        <h3>Local SEO Command Center</h3>
+        <p>Dominate Google in your zip code. AI generates review response templates, GBP posting calendars, photo strategies, and citation audits — tuned to your exact location and cuisine.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">Google Reviews</span>
+          <span class="feature-tag">GBP Posts</span>
+          <span class="feature-tag">Local Search</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <h2>Up and Running in 3 Days</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>We Set It Up</h3>
+        <p>We connect your social accounts, Google Business Profile, and email. Configure the AI for your menu, vibe, and voice. You do nothing.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Text It Like a Friend</h3>
+        <p>Between prep and service, text: "Post about our new brunch menu launching Saturday." It responds in seconds with a preview.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Approve & Publish</h3>
+        <p>AI shows you a preview. Say "go" to publish, or "make it more casual" — it revises instantly. Nothing goes live without your thumbs up.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>It Gets Smarter</h3>
+        <p>The style engine learns your preferences. Within a week, posts barely need editing. It knows your specials voice from your event voice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-preview">
+  <div class="container">
+    <h2>See It in Action</h2>
+    <p class="subtitle">This is what your daily workflow looks like. Text in → content out.</p>
+
+    <div class="imessage-demo">
+      <div class="imessage-header">🤖 Trader Hawk AI</div>
+      <div class="imessage-body">
+        <div class="msg msg-user">post about tonight's special — blackened salmon with mango salsa</div>
+        <div class="msg-clear"></div>
+        <div class="msg msg-bot">
+          <em>📝 Post Ready:</em> "Tonight's special is calling your name 🔥 Our chef's blackened salmon with fresh mango salsa — served with jasmine rice and grilled asparagus. Limited plates. No reservations needed, first come first served..."<br><br>
+          🖼️ AI image generated. Post to <strong>Facebook + Instagram</strong>? Reply <strong>go</strong> or tell me what to change.
+        </div>
+        <div class="msg-clear"></div>
+        <div class="msg msg-user">go</div>
+        <div class="msg-clear"></div>
+        <div class="msg msg-bot">
+          <em>✅ Published to Facebook + Instagram!</em><br>
+          📊 I'll report engagement in 24hrs
+        </div>
+        <div class="msg-clear"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case-study" id="case-study">
+  <div class="container">
+    <h2>What This Looks Like in Practice</h2>
+    <p class="subtitle">Here's what Trader Hawk typically delivers for restaurants in the first 90 days.</p>
+
+    <div class="case-metrics">
+      <div class="metric">
+        <span class="number">45min → 3min</span>
+        <span class="label">Daily marketing time</span>
+      </div>
+      <div class="metric">
+        <span class="number">4×</span>
+        <span class="label">More posts per week</span>
+      </div>
+      <div class="metric">
+        <span class="number">100%</span>
+        <span class="label">Reviews answered</span>
+      </div>
+      <div class="metric">
+        <span class="number">$0</span>
+        <span class="label">Spent on designers or VAs</span>
+      </div>
+    </div>
+
+    <div class="testimonial-block">
+      <blockquote>"Between lunch and dinner, I have zero time for marketing. Now I text a 10-word description of tonight's special and my Facebook and Instagram are done. My Google reviews all get responses. It's like having a marketing person on staff without the payroll."</blockquote>
+      <div class="author">— Restaurant Owner</div>
+      <div class="title">Independent Restaurant · Wisconsin</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <h2>Done-For-You Pricing</h2>
+    <p class="subtitle">We build it, configure it, and maintain it. You just text.</p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Standard</h3>
+        <div class="setup">$2,999 one-time setup</div>
+        <div class="amount">$79</div>
+        <div class="period">/month maintenance</div>
+        <ul>
+          <li>Dedicated Mac Mini (hardware included)</li>
+          <li>iMessage AI assistant (24/7)</li>
+          <li>Facebook + Instagram posting</li>
+          <li>AI content & image generation</li>
+          <li>Gmail, Calendar, Docs integration</li>
+          <li>Style learning engine</li>
+          <li>Promo & event flyer builder</li>
+          <li>Content calendar & scheduling</li>
+          <li>Google Forms & surveys</li>
+          <li>Marketing coaching AI</li>
+          <li>Local SEO command center</li>
+          <li>Email + text support</li>
+        </ul>
+        <a href="#book-demo" class="card-cta secondary">Book a Demo →</a>
+      </div>
+
+      <div class="price-card featured">
+        <h3>Premium</h3>
+        <div class="setup">$4,499 one-time setup</div>
+        <div class="amount">$99</div>
+        <div class="period">/month maintenance</div>
+        <ul>
+          <li>Everything in Standard</li>
+          <li>Inspiration engine (competitor monitoring)</li>
+          <li>Automated review response pipeline</li>
+          <li>Monthly strategy check-in call</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#book-demo" class="card-cta primary">Book a Demo →</a>
+      </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 32px; font-size: 14px; color: var(--gray-500);">
+      <strong>Founding member pricing:</strong> First 5 businesses get 25% off setup.<br>
+      Setup includes dedicated hardware, full install, and training. Monthly covers AI costs, monitoring, updates, and support.
+    </p>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Do I need to download an app?</summary>
+        <p>No. Trader Hawk works entirely through iMessage — the texting app already on your iPhone. There's nothing to download, no logins to remember, and no new interface to learn.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can it post daily specials automatically?</summary>
+        <p>Almost — you text a quick description ("tonight's special: pan-seared walleye, $18") and AI writes the full post, generates an image, and publishes. Takes about 30 seconds of your time.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What social platforms does it post to?</summary>
+        <p>Currently Facebook Pages and Instagram Business accounts. TikTok posting is in development. The AI can also generate Reels scripts and TikTok captions for you to post manually.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can it respond to Google reviews for me?</summary>
+        <p>It generates personalized, keyword-rich responses you paste into Google. After GBP API approval, it will reply directly. Either way, every review gets a thoughtful, on-brand response in seconds.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can it post without my approval?</summary>
+        <p>Never. Every post requires your explicit "go." You always see a preview first. Silence means nothing happens.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How long does setup take?</summary>
+        <p>Typically 2-3 business days. We connect your accounts, configure for your menu and brand voice, and schedule a 30-minute training call so you can start texting immediately.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What if I need help or something breaks?</summary>
+        <p>Text or email us anytime. Premium plan includes a monthly check-in call. Most issues are resolved within hours.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What happens if I cancel?</summary>
+        <p>30-day notice, and we deactivate your assistant. All your social accounts stay yours. We delete credentials within 7 days. No penalty. Setup fee is non-refundable.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta" id="book-demo">
+  <div class="container">
+    <h2>Ready to Fill More Seats?</h2>
+    <p>Book a free 15-minute demo. We'll show you exactly how it works with your accounts, live. No pressure, no commitment.</p>
+    <a href="mailto:akastevehawkins@gmail.com?subject=Trader%20Hawk%20Demo%20Request%20%28Restaurant%29&body=Hi%2C%20I'm%20interested%20in%20a%20demo%20of%20Trader%20Hawk%20for%20my%20restaurant.%0A%0AName%3A%0ARestaurant%3A%0ALocation%3A%0ABest%20time%20to%20call%3A" class="hero-cta">Book Your Free Demo →</a>
+    <p class="guarantee">Free demo · No credit card required · See it working in 15 minutes</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>Trader Hawk · AI-Powered Restaurant Marketing · Built by <a href="mailto:akastevehawkins@gmail.com">Steve Hawkins</a> · (262) 498-7036</p>
+    <p style="margin-top: 6px;"><a href="../privacy_policy.html">Privacy Policy</a> · <a href="../terms_of_service.html">Terms of Service</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

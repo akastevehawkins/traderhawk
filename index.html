@@ -554,6 +554,14 @@
   }
 
   /* ── Footer ── */
+  .industries { padding: 80px 0; background: var(--gray-50); }
+  .industries h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--navy-mid); margin-bottom: 12px; }
+  .industries .subtitle { text-align: center; font-size: 16px; color: var(--gray-500); margin-bottom: 40px; }
+  .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto; }
+  .industry-link { display: block; padding: 20px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); text-align: center; font-weight: 600; color: var(--navy-mid); transition: transform 0.2s, box-shadow 0.2s; }
+  .industry-link:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .industry-link .icon { font-size: 32px; display: block; margin-bottom: 8px; }
+
   .footer {
     padding: 32px 0;
     text-align: center;
@@ -569,9 +577,10 @@
     .pain-grid, .feature-grid, .steps, .case-metrics, .price-grid {
       grid-template-columns: 1fr;
     }
-    .features, .how-it-works, .pricing, .case-study, .faq, .final-cta, .problem, .demo-preview {
+    .features, .how-it-works, .pricing, .case-study, .faq, .final-cta, .problem, .demo-preview, .industries {
       padding: 60px 0;
     }
+    .industry-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -584,6 +593,7 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#how-it-works">How It Works</a>
+      <a href="#industries">Industries</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="#book-demo" class="nav-cta">Book a Demo</a>
@@ -935,6 +945,22 @@
         <p>Text or email us anytime. Professional plan includes a monthly check-in call. Most issues are resolved within hours. Your assistant has a built-in maintenance mode so updates never interrupt your workflow.</p>
       </details>
 
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ INDUSTRIES ═══════ -->
+<section class="industries" id="industries">
+  <div class="container">
+    <h2>Not in Real Estate? We've Got You Covered.</h2>
+    <p class="subtitle">Trader Hawk adapts to any local business. See how it works for your industry.</p>
+    <div class="industry-grid">
+      <a href="restaurant/" class="industry-link"><span class="icon">🍽️</span>Restaurants</a>
+      <a href="contractor/" class="industry-link"><span class="icon">🔨</span>Contractors</a>
+      <a href="salon/" class="industry-link"><span class="icon">💇</span>Salons & Barbershops</a>
+      <a href="fitness/" class="industry-link"><span class="icon">💪</span>Gyms & Fitness</a>
+      <a href="retail/" class="industry-link"><span class="icon">🛍️</span>Retail & Boutiques</a>
+      <a href="general/" class="industry-link"><span class="icon">🏢</span>Any Small Business</a>
     </div>
   </div>
 </section>
