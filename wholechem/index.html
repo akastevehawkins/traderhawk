@@ -532,23 +532,23 @@
             <div class="comparison-col old">
                 <h4>Today's QC Workflow</h4>
                 <ul>
-                    <li>Manually searching SharePoint for documents</li>
-                    <li>Tracking audit prep in spreadsheets and memory</li>
-                    <li>Supplier cert expiration dates slip through</li>
-                    <li>CAPAs tracked on paper or scattered files</li>
-                    <li>SQF audit prep takes weeks of scrambling</li>
-                    <li>One person (you) holds all the knowledge</li>
+                    <li>Manually digging through 445+ SharePoint docs for the right file</li>
+                    <li>Writing internal audit reports, CAPA forms, and mock recall reports from scratch every year</li>
+                    <li>Supplier cert expiration dates slip through — Flavorchem audit overdue since March 2024</li>
+                    <li>CAPAs tracked on paper or scattered across 01 SQF folder</li>
+                    <li>SQF audit prep takes weeks of scrambling through 59 SQF documents</li>
+                    <li>One person (you) holds all the knowledge — Mike can't self-serve supplier info</li>
                 </ul>
             </div>
             <div class="comparison-col new">
                 <h4>With Your QC Agent</h4>
                 <ul>
-                    <li>Ask in Teams: "Find the Flavorchem COA" — instant</li>
-                    <li>Automated audit prep checklists by SQF clause</li>
-                    <li>Proactive alerts before certs expire</li>
-                    <li>Digital CAPA tracking with due dates</li>
-                    <li>Audit-ready status dashboard anytime</li>
-                    <li>Mike can ask it supplier questions too</li>
+                    <li>Ask in Teams: "Find the Flavorchem COA" — searches all 100+ supplier folders instantly</li>
+                    <li>Say "Draft my 2026 internal audit report" — agent writes the Word doc from your real data</li>
+                    <li>Automated alerts 30 days before any cert expires — across all suppliers</li>
+                    <li>Digital CAPA forms auto-generated with root cause, due dates, and SQF clause references</li>
+                    <li>Audit-readiness score anytime — gaps flagged by SQF Ed. 9 clause</li>
+                    <li>Mike asks it sourcing questions — COAs, spec sheets, vendor status — same Teams channel</li>
                 </ul>
             </div>
         </div>
@@ -589,10 +589,57 @@
                 <p>Knows your annual review dates, training refreshers, equipment calibrations, pest control schedules, mock recall deadlines, and management reviews.</p>
             </div>
             <div class="card">
+                <div class="card-icon">📄</div>
+                <h3>Document Generation</h3>
+                <p>Drafts audit reports, CAPA forms, mock recall reports, non-conformance logs, and management review minutes as formatted Word documents — pre-filled from your actual SharePoint data — and saves them right back to the correct folder.</p>
+            </div>
+            <div class="card">
                 <div class="card-icon">⚖️</div>
                 <h3>Multi-Regulatory Coverage</h3>
                 <p>Monitors compliance across all your frameworks — FDA, EPA, DEA, Earth Kosher, Ecocert, and SQF — all in one place.</p>
             </div>
+            <div class="card">
+                <div class="card-icon">🏷️</div>
+                <h3>Label Compliance</h3>
+                <p>Integrates with your label maker to verify FDA, GHS, and DOT labeling requirements. Catches compliance issues before labels go to print — because proper labeling is QC.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ YOUR SHAREPOINT TODAY ═══ -->
+<section>
+    <div class="container">
+        <span class="section-label">Already Connected</span>
+        <h2>We've Already Mapped Your Documents</h2>
+        <p>The agent is already connected to your SharePoint and has indexed your entire Company Files library. Here's what it sees today:</p>
+
+        <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="card" style="text-align: center; padding: 20px;">
+                <div style="font-size: 32px; font-weight: 800; color: var(--wc-navy);">59</div>
+                <div style="font-size: 14px; color: var(--wc-text-light); margin-top: 4px;">SQF Documents</div>
+                <div style="font-size: 12px; color: var(--wc-light-blue); margin-top: 2px;">01 SQF folder</div>
+            </div>
+            <div class="card" style="text-align: center; padding: 20px;">
+                <div style="font-size: 32px; font-weight: 800; color: var(--wc-navy);">898</div>
+                <div style="font-size: 14px; color: var(--wc-text-light); margin-top: 4px;">Product Files</div>
+                <div style="font-size: 12px; color: var(--wc-light-blue); margin-top: 2px;">01 Products folder</div>
+            </div>
+            <div class="card" style="text-align: center; padding: 20px;">
+                <div style="font-size: 32px; font-weight: 800; color: var(--wc-navy);">100+</div>
+                <div style="font-size: 14px; color: var(--wc-text-light); margin-top: 4px;">Supplier Folders</div>
+                <div style="font-size: 12px; color: var(--wc-light-blue); margin-top: 2px;">Flavorchem, BASF, Apiscent, Bell...</div>
+            </div>
+            <div class="card" style="text-align: center; padding: 20px;">
+                <div style="font-size: 32px; font-weight: 800; color: var(--wc-navy);">6</div>
+                <div style="font-size: 14px; color: var(--wc-text-light); margin-top: 4px;">Regulatory Libraries</div>
+                <div style="font-size: 12px; color: var(--wc-light-blue); margin-top: 2px;">FDA, EPA, DEA, Kosher, Ecocert, SQF</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 24px; padding: 20px; background: var(--wc-light-gray); border-radius: 12px; border-left: 4px solid var(--wc-green);">
+            <strong style="color: var(--wc-green);">This is live, not a mockup.</strong>
+            <span style="color: var(--wc-text-light);">We've already authenticated with your Microsoft 365 tenant and mapped your entire SharePoint document library. The agent knows your folder structure, your suppliers, and your compliance files. It's ready to go.</span>
         </div>
     </div>
 </section>
@@ -627,6 +674,8 @@
             <button onclick="askDemo('What do I need for my SQF audit?')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">What do I need for my SQF audit?</button>
             <button onclick="askDemo('Is the Flavorchem COA current?')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">Is the Flavorchem COA current?</button>
             <button onclick="askDemo('Which supplier certs are expiring?')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">Which supplier certs are expiring?</button>
+            <button onclick="askDemo('Draft my 2026 internal audit report')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">Draft my 2026 internal audit report</button>
+            <button onclick="askDemo('Create a CAPA for the Flavorchem audit gap')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">Create a CAPA for the Flavorchem audit gap</button>
         </div>
     </div>
 </section>
@@ -638,7 +687,7 @@
         <h2>Simple for You, Powerful Under the Hood</h2>
         <p>You talk to it like a colleague in Teams. Behind the scenes, it reads your SharePoint documents and gives you specific, accurate answers.</p>
 
-        <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));">
             <div class="card" style="text-align: center;">
                 <div style="font-size: 36px; margin-bottom: 12px;">💬</div>
                 <h3>1. You Ask</h3>
@@ -647,12 +696,17 @@
             <div class="card" style="text-align: center;">
                 <div style="font-size: 36px; margin-bottom: 12px;">🔍</div>
                 <h3>2. Agent Researches</h3>
-                <p>It searches your SharePoint files, reads documents, and cross-references compliance requirements.</p>
+                <p>It searches your 445+ SharePoint files, reads documents, and cross-references SQF requirements.</p>
             </div>
             <div class="card" style="text-align: center;">
                 <div style="font-size: 36px; margin-bottom: 12px;">✅</div>
                 <h3>3. You Get Answers</h3>
-                <p>Specific answers with document names, dates, and actionable checklists — not vague suggestions.</p>
+                <p>Specific answers with real document names, dates, SQF clause references, and actionable next steps.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 36px; margin-bottom: 12px;">📄</div>
+                <h3>4. Docs Created</h3>
+                <p>Need a report? The agent drafts Word documents pre-filled with your data and saves them to SharePoint.</p>
             </div>
         </div>
 
@@ -937,7 +991,46 @@ Want me to flag this as a CAPA and remind you in Teams when the new COA is due?`
 <li>✅ Earth Kosher cert — valid through Dec 2026</li>
 </ul>
 
-I can set up automatic alerts 30 days before any supplier cert expires. Want me to do that?`
+I can set up automatic alerts 30 days before any supplier cert expires. Want me to do that?`,
+
+    'Draft my 2026 internal audit report': `On it. I'm pulling data from your <strong>01 SQF</strong> folder and cross-referencing SQF Edition 9 requirements...
+
+📄 <strong>Creating:</strong> <em>WholeChem Internal Audit Report — 2026.docx</em>
+
+Here's what I'm including:
+<ul class="checklist">
+<li>✅ <strong>Section 1: Scope</strong> — SQF Supplier certification, 9900 Durand Ave facility</li>
+<li>✅ <strong>Section 2: Audit Findings</strong> — Reviewed 59 documents in 01 SQF against all SQF Ed. 9 clauses</li>
+<li>⚠️ <strong>Finding #1:</strong> Management Review (Clause 2.1.2) — last minutes dated 2024, annual review overdue</li>
+<li>⚠️ <strong>Finding #2:</strong> Mock Recall (Clause 2.4.3) — no 2026 mock recall report found</li>
+<li>⚠️ <strong>Finding #3:</strong> Supplier Qualification (Clause 2.3.2) — Flavorchem audit overdue since March 2024</li>
+<li>✅ <strong>Section 3: Observations</strong> — HACCP plan current, allergen controls on file, training records up to date</li>
+<li>✅ <strong>Section 4: Corrective Actions Required</strong> — 3 CAPAs auto-generated with due dates</li>
+</ul>
+
+📁 <strong>Saved to:</strong> Company Files/01 SQF/Internal Audit Report 2026.docx
+
+The document is formatted with WholeChem letterhead and ready for your review. I also created 3 draft CAPAs for the findings. Want me to open them?`,
+
+    'Create a CAPA for the Flavorchem audit gap': `Creating a Corrective Action / Preventive Action form...
+
+📄 <strong>Creating:</strong> <em>CAPA-2026-001 Flavorchem Supplier Audit.docx</em>
+
+<ul class="checklist">
+<li>📌 <strong>CAPA Number:</strong> CAPA-2026-001</li>
+<li>📌 <strong>Non-Conformance:</strong> Supplier qualification audit overdue — Flavorchem Corp</li>
+<li>📌 <strong>SQF Reference:</strong> Clause 2.3.2 — Approved Supplier Program</li>
+<li>📌 <strong>Root Cause:</strong> No automated tracking; last audit March 2024 found in Company Files/Flavorchem (38 docs)</li>
+<li>📌 <strong>Corrective Action:</strong> Schedule and complete Flavorchem supplier audit by April 30, 2026</li>
+<li>📌 <strong>Preventive Action:</strong> Enable QC Agent auto-alerts for all supplier audit anniversaries</li>
+<li>📌 <strong>Due Date:</strong> April 30, 2026</li>
+<li>📌 <strong>Assigned To:</strong> Sam Modder</li>
+<li>📌 <strong>Status:</strong> Open</li>
+</ul>
+
+📁 <strong>Saved to:</strong> Company Files/01 SQF/CAPAs/CAPA-2026-001.docx
+
+I've also set a reminder to check on this April 15th. Want me to email Flavorchem to schedule the audit?`
 };
 
 function askDemo(question) {
@@ -966,7 +1059,12 @@ function sendDemo() {
     chat.appendChild(typing);
     chat.scrollTop = chat.scrollHeight;
 
-    // Response after delay
+    // Response after delay — longer for document generation prompts
+    const isDocGen = text.toLowerCase().includes('draft') || text.toLowerCase().includes('create a capa');
+    const delay = isDocGen ? 2500 : 1500;
+    setTimeout(() => {
+        if (isDocGen) typing.innerHTML = '<div class="sender">QC Agent</div><em>Generating document from your SharePoint data...</em>';
+    }, 1200);
     setTimeout(() => {
         chat.removeChild(typing);
         const botMsg = document.createElement('div');
@@ -975,7 +1073,7 @@ function sendDemo() {
         botMsg.innerHTML = `<div class="sender">QC Agent</div>${response}`;
         chat.appendChild(botMsg);
         chat.scrollTop = chat.scrollHeight;
-    }, 1500);
+    }, delay);
 }
 
 function escapeHTML(str) {
