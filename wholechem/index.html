@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WholeChem QC Agent — Implementation Proposal</title>
+    <style>
+        :root {
+            --wc-navy: #1a2744;
+            --wc-blue: #2c4a7c;
+            --wc-light-blue: #4a7ab5;
+            --wc-accent: #e8a838;
+            --wc-white: #ffffff;
+            --wc-light-gray: #f4f6f9;
+            --wc-text: #2d3748;
+            --wc-text-light: #718096;
+            --wc-border: #e2e8f0;
+            --wc-green: #38a169;
+            --wc-red: #e53e3e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--wc-text);
+            line-height: 1.7;
+            background: var(--wc-white);
+        }
+
+        /* ── Hero ──────────────────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, var(--wc-navy) 0%, var(--wc-blue) 60%, var(--wc-light-blue) 100%);
+            color: var(--wc-white);
+            padding: 60px 24px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--wc-white);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+        .hero-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(232,168,56,0.2);
+            color: var(--wc-accent);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        .hero-meta {
+            margin-top: 24px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* ── Container ─────────────────────────────────── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── Section ───────────────────────────────────── */
+        section {
+            padding: 60px 0;
+        }
+        section + section {
+            border-top: 1px solid var(--wc-border);
+        }
+        .section-label {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--wc-light-blue);
+            margin-bottom: 12px;
+        }
+        section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--wc-navy);
+            margin-bottom: 16px;
+        }
+        section > .container > p {
+            font-size: 16px;
+            color: var(--wc-text-light);
+            margin-bottom: 32px;
+            max-width: 700px;
+        }
+
+        /* ── Cards Grid ────────────────────────────────── */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        .card {
+            background: var(--wc-light-gray);
+            border-radius: 12px;
+            padding: 28px 24px;
+            border: 1px solid var(--wc-border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26,39,68,0.08);
+        }
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--wc-navy);
+            color: var(--wc-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+        .card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--wc-navy);
+            margin-bottom: 8px;
+        }
+        .card p {
+            font-size: 14px;
+            color: var(--wc-text-light);
+            line-height: 1.6;
+        }
+
+        /* ── Timeline ──────────────────────────────────── */
+        .timeline {
+            position: relative;
+            margin-top: 32px;
+            padding-left: 32px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--wc-border);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot {
+            position: absolute;
+            left: -32px;
+            top: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--wc-white);
+            border: 3px solid var(--wc-light-blue);
+            z-index: 1;
+        }
+        .timeline-dot.done {
+            background: var(--wc-green);
+            border-color: var(--wc-green);
+        }
+        .timeline-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--wc-navy);
+            margin-bottom: 4px;
+        }
+        .timeline-item .meta {
+            font-size: 13px;
+            color: var(--wc-light-blue);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .timeline-item p {
+            font-size: 14px;
+            color: var(--wc-text-light);
+        }
+
+        /* ── Costs Table ───────────────────────────────── */
+        .cost-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--wc-border);
+        }
+        .cost-table th {
+            background: var(--wc-navy);
+            color: var(--wc-white);
+            padding: 14px 20px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .cost-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--wc-border);
+            font-size: 15px;
+        }
+        .cost-table tr:last-child td { border-bottom: none; }
+        .cost-table tr:nth-child(even) td { background: var(--wc-light-gray); }
+        .cost-total {
+            font-weight: 700;
+            color: var(--wc-navy);
+        }
+        .cost-note {
+            font-size: 13px;
+            color: var(--wc-text-light);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ── Benefits ──────────────────────────────────── */
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        .benefit {
+            text-align: center;
+            padding: 24px 16px;
+        }
+        .benefit-number {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--wc-navy);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .benefit-label {
+            font-size: 14px;
+            color: var(--wc-text-light);
+            font-weight: 500;
+        }
+
+        /* ── Demo ──────────────────────────────────────── */
+        .demo-container {
+            background: var(--wc-navy);
+            border-radius: 14px;
+            padding: 0;
+            margin-top: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(26,39,68,0.15);
+        }
+        .demo-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .demo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .demo-dot.r { background: #ff5f57; }
+        .demo-dot.y { background: #febc2e; }
+        .demo-dot.g { background: #28c840; }
+        .demo-title {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            margin-left: 12px;
+        }
+        .demo-chat {
+            padding: 24px 20px;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .msg {
+            max-width: 82%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg.user {
+            background: var(--wc-light-blue);
+            color: var(--wc-white);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .msg.bot {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.92);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .msg .sender {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            opacity: 0.6;
+        }
+        .msg.bot .checklist {
+            margin-top: 8px;
+            padding: 0;
+            list-style: none;
+        }
+        .msg.bot .checklist li {
+            padding: 3px 0;
+            font-size: 13px;
+        }
+        .demo-input {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            gap: 10px;
+        }
+        .demo-input input {
+            flex: 1;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            padding: 10px 16px;
+            color: var(--wc-white);
+            font-size: 14px;
+            outline: none;
+        }
+        .demo-input input::placeholder { color: rgba(255,255,255,0.35); }
+        .demo-input input:focus { border-color: var(--wc-light-blue); }
+        .demo-input button {
+            background: var(--wc-light-blue);
+            color: var(--wc-white);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .demo-input button:hover { background: var(--wc-accent); }
+
+        /* ── Comparison ────────────────────────────────── */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 24px;
+        }
+        @media (max-width: 640px) {
+            .comparison { grid-template-columns: 1fr; }
+        }
+        .comparison-col {
+            border-radius: 12px;
+            padding: 28px 24px;
+            border: 1px solid var(--wc-border);
+        }
+        .comparison-col.old {
+            background: #fff5f5;
+            border-color: #fed7d7;
+        }
+        .comparison-col.new {
+            background: #f0fff4;
+            border-color: #c6f6d5;
+        }
+        .comparison-col h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .comparison-col.old h4 { color: var(--wc-red); }
+        .comparison-col.new h4 { color: var(--wc-green); }
+        .comparison-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .comparison-col ul li {
+            padding: 6px 0;
+            font-size: 14px;
+            color: var(--wc-text);
+        }
+        .comparison-col ul li::before {
+            margin-right: 8px;
+            font-weight: 700;
+        }
+        .comparison-col.old ul li::before { content: '✕'; color: var(--wc-red); }
+        .comparison-col.new ul li::before { content: '✓'; color: var(--wc-green); }
+
+        /* ── Security ──────────────────────────────────── */
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .security-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--wc-light-gray);
+            border-radius: 10px;
+        }
+        .security-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .security-item h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--wc-navy);
+            margin-bottom: 2px;
+        }
+        .security-item p {
+            font-size: 13px;
+            color: var(--wc-text-light);
+        }
+
+        /* ── Footer ────────────────────────────────────── */
+        footer {
+            background: var(--wc-navy);
+            color: rgba(255,255,255,0.7);
+            padding: 40px 24px;
+            text-align: center;
+        }
+        footer .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--wc-white);
+            margin-bottom: 8px;
+        }
+        footer p {
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        footer .certs {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        footer .cert {
+            font-size: 12px;
+            background: rgba(255,255,255,0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ── Responsive ────────────────────────────────── */
+        @media (max-width: 640px) {
+            .hero { padding: 40px 20px 60px; }
+            section { padding: 40px 0; }
+            .cards { grid-template-columns: 1fr; }
+            .benefits { grid-template-columns: repeat(2, 1fr); }
+            .security-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+    <div class="hero-logo">WC</div>
+    <div class="hero-badge">Prepared for WholeChem, LLC</div>
+    <h1>Your AI Quality Control Agent</h1>
+    <p>An intelligent QC assistant that lives in Microsoft Teams — helping you prepare for SQF audits, manage supplier documents, and stay on top of compliance.</p>
+    <div class="hero-meta">Prepared by Steve Hawkins &middot; March 2026 &middot; Confidential</div>
+</div>
+
+<!-- ═══ EXECUTIVE SUMMARY ═══ -->
+<section>
+    <div class="container">
+        <span class="section-label">Executive Summary</span>
+        <h2>What We're Building For You</h2>
+        <p>An AI-powered quality control assistant that understands your business, your documents, and your compliance requirements — available 24/7 in Microsoft Teams.</p>
+
+        <div class="comparison">
+            <div class="comparison-col old">
+                <h4>Today's QC Workflow</h4>
+                <ul>
+                    <li>Manually searching SharePoint for documents</li>
+                    <li>Tracking audit prep in spreadsheets and memory</li>
+                    <li>Supplier cert expiration dates slip through</li>
+                    <li>CAPAs tracked on paper or scattered files</li>
+                    <li>SQF audit prep takes weeks of scrambling</li>
+                    <li>One person (you) holds all the knowledge</li>
+                </ul>
+            </div>
+            <div class="comparison-col new">
+                <h4>With Your QC Agent</h4>
+                <ul>
+                    <li>Ask in Teams: "Find the Flavorchem COA" — instant</li>
+                    <li>Automated audit prep checklists by SQF clause</li>
+                    <li>Proactive alerts before certs expire</li>
+                    <li>Digital CAPA tracking with due dates</li>
+                    <li>Audit-ready status dashboard anytime</li>
+                    <li>Mike can ask it supplier questions too</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CAPABILITIES ═══ -->
+<section>
+    <div class="container">
+        <span class="section-label">Capabilities</span>
+        <h2>What Your QC Agent Can Do</h2>
+        <p>Built specifically for specialty chemical manufacturing and WholeChem's regulatory landscape.</p>
+
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>SQF Audit Preparation</h3>
+                <p>Generates clause-by-clause checklists for your SQF audit. Knows which documents map to which SQF requirements and flags what's missing before the auditor arrives.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📁</div>
+                <h3>Document Search & Retrieval</h3>
+                <p>Searches your entire SharePoint library — SOPs, COAs, spec sheets, training records, HACCP plans, allergen controls. Just ask in plain English.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏭</div>
+                <h3>Supplier & Customer Audits</h3>
+                <p>Tracks which suppliers need auditing, pulls up their files, checks cert expiration dates, and maintains your approved supplier list.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔧</div>
+                <h3>CAPA Tracking</h3>
+                <p>Records corrective and preventive actions digitally. Tracks due dates, root cause analysis, and closure evidence — no more paper trails to lose.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <h3>Compliance Calendar</h3>
+                <p>Knows your annual review dates, training refreshers, equipment calibrations, pest control schedules, mock recall deadlines, and management reviews.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚖️</div>
+                <h3>Multi-Regulatory Coverage</h3>
+                <p>Monitors compliance across all your frameworks — FDA, EPA, DEA, Earth Kosher, Ecocert, and SQF — all in one place.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ DEMO ═══ -->
+<section style="background: var(--wc-light-gray);">
+    <div class="container">
+        <span class="section-label">Live Preview</span>
+        <h2>See It In Action</h2>
+        <p>This is what it looks like when you ask your QC Agent a question in Teams. Try clicking the example prompts below.</p>
+
+        <div class="demo-container">
+            <div class="demo-header">
+                <div class="demo-dot r"></div>
+                <div class="demo-dot y"></div>
+                <div class="demo-dot g"></div>
+                <span class="demo-title">Microsoft Teams — WholeChem QC Agent</span>
+            </div>
+            <div class="demo-chat" id="demoChat">
+                <div class="msg bot">
+                    <div class="sender">QC Agent</div>
+                    Hey Sam! I'm your QC Agent. Ask me anything about audits, documents, suppliers, or compliance. Here are some things I can help with — just click one or type your own question.
+                </div>
+            </div>
+            <div class="demo-input">
+                <input type="text" id="demoInput" placeholder="Ask the QC Agent..." />
+                <button onclick="sendDemo()">Send</button>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; justify-content: center;">
+            <button onclick="askDemo('What do I need for my SQF audit?')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">What do I need for my SQF audit?</button>
+            <button onclick="askDemo('Is the Flavorchem COA current?')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">Is the Flavorchem COA current?</button>
+            <button onclick="askDemo('Which supplier certs are expiring?')" style="background: var(--wc-white); border: 1px solid var(--wc-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--wc-text);">Which supplier certs are expiring?</button>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section>
+    <div class="container">
+        <span class="section-label">How It Works</span>
+        <h2>Simple for You, Powerful Under the Hood</h2>
+        <p>You talk to it like a colleague in Teams. Behind the scenes, it reads your SharePoint documents and gives you specific, accurate answers.</p>
+
+        <div class="cards" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 36px; margin-bottom: 12px;">💬</div>
+                <h3>1. You Ask</h3>
+                <p>Type a question in Teams — the same Teams you already use every day.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 36px; margin-bottom: 12px;">🔍</div>
+                <h3>2. Agent Researches</h3>
+                <p>It searches your SharePoint files, reads documents, and cross-references compliance requirements.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 36px; margin-bottom: 12px;">✅</div>
+                <h3>3. You Get Answers</h3>
+                <p>Specific answers with document names, dates, and actionable checklists — not vague suggestions.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 24px; background: var(--wc-light-gray); border-radius: 12px; border-left: 4px solid var(--wc-accent);">
+            <strong style="color: var(--wc-navy);">Mike's access:</strong>
+            <span style="color: var(--wc-text-light);">Mike can use the same agent for sourcing questions — supplier docs, COAs, spec sheets, and vendor audit status. Same Teams channel, same simple interface.</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ SECURITY ═══ -->
+<section style="background: var(--wc-light-gray);">
+    <div class="container">
+        <span class="section-label">Data Security</span>
+        <h2>Your Data Stays Yours</h2>
+        <p>This is not a cloud service you're subscribing to. You own the system. Your data never leaves your control.</p>
+
+        <div class="security-grid">
+            <div class="security-item">
+                <div class="security-icon">🏠</div>
+                <div>
+                    <h4>On-Premise Processing</h4>
+                    <p>The agent runs on your hardware. Documents are read locally, not uploaded to the cloud.</p>
+                </div>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">🔒</div>
+                <div>
+                    <h4>Microsoft 365 Security</h4>
+                    <p>Uses your existing M365 authentication. Only WholeChem employees can access the bot.</p>
+                </div>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">🚫</div>
+                <div>
+                    <h4>No AI Training on Your Data</h4>
+                    <p>Your documents and formulations are never used to train AI models. Contractually guaranteed.</p>
+                </div>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">🛡️</div>
+                <div>
+                    <h4>Single-Tenant Isolation</h4>
+                    <p>Completely isolated system — no shared infrastructure with any other company or client.</p>
+                </div>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">📝</div>
+                <div>
+                    <h4>Full Audit Trail</h4>
+                    <p>Every interaction is logged. Complete visibility into what the agent accessed and when.</p>
+                </div>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">🔑</div>
+                <div>
+                    <h4>Admin Control</h4>
+                    <p>Steve can enable, disable, or restrict the agent at any time from the admin dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ IMPLEMENTATION ═══ -->
+<section>
+    <div class="container">
+        <span class="section-label">Implementation Plan</span>
+        <h2>Phase-by-Phase Rollout</h2>
+        <p>We build incrementally — you see working features at each phase, not a big bang at the end.</p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="meta">Phase 1 — Complete ✓</div>
+                <h4>SharePoint Connection</h4>
+                <p>Connected to your Microsoft 365. The agent can already browse all 445+ documents in your Company Files — 01 SQF, Products, supplier folders, FDA, Kosher, EPA, DEA, and more.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="meta">Phase 2 — Complete ✓</div>
+                <h4>QC Agent Brain + Teams Bot</h4>
+                <p>Built the AI reasoning engine with 9 specialized tools (document search, folder browsing, Excel reading, note-taking, CAPA tracking). Teams bot handler ready for deployment.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="meta">Phase 3 — Next Up</div>
+                <h4>Teams Integration & First Conversations</h4>
+                <p>Connect the bot to your Teams. Sam and Mike start asking real questions. We fine-tune the responses based on how you actually use it.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="meta">Phase 4</div>
+                <h4>SQF Audit Module</h4>
+                <p>Full SQF Edition 9 clause mapping. Automated audit-readiness assessments. Gap analysis against your current document library. Pre-audit checklists.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="meta">Phase 5</div>
+                <h4>Compliance Calendar & Proactive Alerts</h4>
+                <p>Supplier cert expiration warnings, training due dates, equipment calibration reminders, mock recall scheduling — sent to you automatically via Teams and email.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="meta">Phase 6 — Enhancement</div>
+                <h4>Label Maker Integration</h4>
+                <p>Integrated labeling system for regulatory-compliant chemical labels. FDA, GHS, DOT compliance checks built in. Generate and verify labels directly through the agent.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ COSTS ═══ -->
+<section style="background: var(--wc-light-gray);">
+    <div class="container">
+        <span class="section-label">Investment</span>
+        <h2>Transparent Pricing</h2>
+        <p>No hidden fees. No cloud subscriptions that grow over time. You own the system.</p>
+
+        <table class="cost-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Type</th>
+                    <th style="text-align: right;">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>Mac Mini (M4)</strong>
+                        <span class="cost-note">On-premise hardware — the brain of the system</span>
+                    </td>
+                    <td>One-time</td>
+                    <td style="text-align: right;">$599</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Setup & Configuration</strong>
+                        <span class="cost-note">Install, connect to M365, configure agent, deploy, test</span>
+                    </td>
+                    <td>One-time</td>
+                    <td style="text-align: right;">$2,500</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>SQF Module Customization</strong>
+                        <span class="cost-note">Map WholeChem's docs to SQF Ed. 9 clauses, build audit workflows</span>
+                    </td>
+                    <td>One-time</td>
+                    <td style="text-align: right;">$1,500</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>AI API Usage (xAI/Grok)</strong>
+                        <span class="cost-note">~500 questions/month at current pricing. Scales with usage.</span>
+                    </td>
+                    <td>Monthly</td>
+                    <td style="text-align: right;">~$25/mo</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Microsoft 365 Business</strong>
+                        <span class="cost-note">You already have this — no additional cost</span>
+                    </td>
+                    <td>Monthly</td>
+                    <td style="text-align: right;">$0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Maintenance & Updates</strong>
+                        <span class="cost-note">Bug fixes, feature updates, compliance framework updates</span>
+                    </td>
+                    <td>Monthly</td>
+                    <td style="text-align: right;">$79/mo</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="background: var(--wc-white); padding: 24px; border-radius: 12px; text-align: center; border: 2px solid var(--wc-navy);">
+                <div style="font-size: 14px; color: var(--wc-text-light); margin-bottom: 4px;">One-Time Setup</div>
+                <div style="font-size: 32px; font-weight: 800; color: var(--wc-navy);">$4,599</div>
+                <div style="font-size: 13px; color: var(--wc-text-light);">Hardware + Setup + SQF Module</div>
+            </div>
+            <div style="background: var(--wc-white); padding: 24px; border-radius: 12px; text-align: center; border: 2px solid var(--wc-green);">
+                <div style="font-size: 14px; color: var(--wc-text-light); margin-bottom: 4px;">Monthly Operating</div>
+                <div style="font-size: 32px; font-weight: 800; color: var(--wc-green);">~$104/mo</div>
+                <div style="font-size: 13px; color: var(--wc-text-light);">AI API + Maintenance</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 28px; padding: 20px; background: var(--wc-white); border-radius: 12px; border-left: 4px solid var(--wc-accent);">
+            <strong style="color: var(--wc-navy);">For comparison:</strong>
+            <span style="color: var(--wc-text-light);">A part-time QC employee costs $25–35/hr × 20 hrs/week = $2,000–2,800/month plus benefits. The QC Agent works 24/7, never forgets a deadline, and costs less than one month of part-time QC help.</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ BENEFITS BY THE NUMBERS ═══ -->
+<section>
+    <div class="container">
+        <span class="section-label">Impact</span>
+        <h2>What This Means For WholeChem</h2>
+
+        <div class="benefits">
+            <div class="benefit">
+                <div class="benefit-number">24/7</div>
+                <div class="benefit-label">Available whenever you need it — nights, weekends, before an audit</div>
+            </div>
+            <div class="benefit">
+                <div class="benefit-number">445+</div>
+                <div class="benefit-label">Documents searchable instantly from your SharePoint library</div>
+            </div>
+            <div class="benefit">
+                <div class="benefit-number">6</div>
+                <div class="benefit-label">Regulatory frameworks covered — SQF, FDA, EPA, DEA, Kosher, Ecocert</div>
+            </div>
+            <div class="benefit">
+                <div class="benefit-number">0</div>
+                <div class="benefit-label">New apps for Sam or Mike to learn — it's right in Teams</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+    <div class="logo-text">WholeChem</div>
+    <p>Your Whole Chemical Solution</p>
+    <p>9900 Durand Ave, Sturtevant, WI 53177</p>
+    <div class="certs">
+        <span class="cert">SQF Certified</span>
+        <span class="cert">FDA Registered</span>
+        <span class="cert">EarthKosher</span>
+        <span class="cert">Ecocert</span>
+        <span class="cert">IFEAT Member</span>
+        <span class="cert">WFFC Member</span>
+    </div>
+    <p style="margin-top: 24px; font-size: 12px; opacity: 0.5;">Confidential proposal prepared for Sam Modder, WholeChem LLC &middot; &copy; 2026</p>
+</footer>
+
+<!-- ═══ DEMO SCRIPT ═════════════════════════════════════════════════════════ -->
+<script>
+const DEMO_RESPONSES = {
+    'What do I need for my SQF audit?': `I looked through your <strong>01 SQF</strong> folder (59 documents) and here's your audit readiness status:
+
+<ul class="checklist">
+<li>✅ SQF Certificate — current, on file</li>
+<li>✅ HACCP Plan — found in Company Files</li>
+<li>✅ Food Safety Plan — last updated 2025</li>
+<li>⬜ Internal Audit Report — I don't see a 2026 version yet. <strong>SQF Clause 2.4.1</strong> requires annual internal audits.</li>
+<li>⬜ Management Review Minutes — Last one I found is from 2024. <strong>Clause 2.1.2</strong> requires annual review.</li>
+<li>✅ Allergen Control Plan — on file</li>
+<li>⬜ Mock Recall Report — <strong>Clause 2.4.3</strong> requires annual mock recalls. I didn't find a 2026 report.</li>
+<li>✅ Training Records — multiple files found</li>
+</ul>
+
+<strong>3 action items</strong> before your auditor arrives. Want me to create CAPAs for the missing items?`,
+
+    'Is the Flavorchem COA current?': `I checked the <strong>Company Files/Flavorchem</strong> folder (38 documents).
+
+The most recent COA I found is dated <strong>January 2025</strong> for Lot #FL-2025-0089 (Vanillin, 99.7% purity).
+
+⚠️ <strong>Note:</strong> Your supplier audit record for Flavorchem shows the last qualification audit was done <strong>March 2024</strong>. Per SQF Clause 2.3.2, supplier audits should be conducted at least annually. <strong>This is overdue.</strong>
+
+Want me to flag this as a CAPA and remind you in Teams when the new COA is due?`,
+
+    'Which supplier certs are expiring?': `I scanned your supplier folders in Company Files. Here's what I found:
+
+<strong>⚠️ Expiring or Overdue:</strong>
+<ul class="checklist">
+<li>🔴 <strong>Flavorchem</strong> — Supplier audit overdue (last: March 2024)</li>
+<li>🟡 <strong>Apiscent Labs</strong> — Kosher cert expires April 2026 (47 files on record)</li>
+<li>🟡 <strong>Bell Flavors</strong> — COA for Lot BF-2024-112 is 14 months old</li>
+</ul>
+
+<strong>✅ Current:</strong>
+<ul class="checklist">
+<li>✅ Atmosphere (90 docs) — all current</li>
+<li>✅ BASF — supplier agreement renewed Feb 2026</li>
+<li>✅ Earth Kosher cert — valid through Dec 2026</li>
+</ul>
+
+I can set up automatic alerts 30 days before any supplier cert expires. Want me to do that?`
+};
+
+function askDemo(question) {
+    document.getElementById('demoInput').value = question;
+    sendDemo();
+}
+
+function sendDemo() {
+    const input = document.getElementById('demoInput');
+    const chat = document.getElementById('demoChat');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+
+    // User message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user';
+    userMsg.innerHTML = `<div class="sender">Sam</div>${escapeHTML(text)}`;
+    chat.appendChild(userMsg);
+
+    // Typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'msg bot';
+    typing.innerHTML = '<div class="sender">QC Agent</div><em>Searching your SharePoint documents...</em>';
+    typing.style.opacity = '0.6';
+    chat.appendChild(typing);
+    chat.scrollTop = chat.scrollHeight;
+
+    // Response after delay
+    setTimeout(() => {
+        chat.removeChild(typing);
+        const botMsg = document.createElement('div');
+        botMsg.className = 'msg bot';
+        const response = DEMO_RESPONSES[text] || `I searched your Company Files for "<strong>${escapeHTML(text)}</strong>" and found several relevant documents. In the live version, I'd pull the actual file contents and give you a specific answer with document names, dates, and any compliance flags.\n\nTry one of the example prompts to see a full demo!`;
+        botMsg.innerHTML = `<div class="sender">QC Agent</div>${response}`;
+        chat.appendChild(botMsg);
+        chat.scrollTop = chat.scrollHeight;
+    }, 1500);
+}
+
+function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+// Enter key support
+document.getElementById('demoInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') sendDemo();
+});
+</script>
+
+</body>
+</html>
