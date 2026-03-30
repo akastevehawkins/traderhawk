@@ -639,7 +639,7 @@
 
         <div style="margin-top: 24px; padding: 20px; background: var(--wc-light-gray); border-radius: 12px; border-left: 4px solid var(--wc-green);">
             <strong style="color: var(--wc-green);">This is live, not a mockup.</strong>
-            <span style="color: var(--wc-text-light);">We've already authenticated with your Microsoft 365 tenant and mapped your entire SharePoint document library. The agent knows your folder structure, your suppliers, and your compliance files. It's ready to go.</span>
+            <span style="color: var(--wc-text-light);">We've already authenticated with your Microsoft 365 tenant with full read <em>and write</em> access. The agent can search your entire document library AND save generated documents — audit reports, CAPA forms, checklists — right back to the correct SharePoint folder. Every saved file includes a direct link you can click to open it.</span>
         </div>
     </div>
 </section>
@@ -705,8 +705,8 @@
             </div>
             <div class="card" style="text-align: center;">
                 <div style="font-size: 36px; margin-bottom: 12px;">📄</div>
-                <h3>4. Docs Created</h3>
-                <p>Need a report? The agent drafts Word documents pre-filled with your data and saves them to SharePoint.</p>
+                <h3>4. Docs Created & Saved</h3>
+                <p>Need a report? The agent drafts Word documents pre-filled with your data, uploads them to the right SharePoint folder, and gives you a direct link to open the file.</p>
             </div>
         </div>
 
@@ -788,8 +788,8 @@
             <div class="timeline-item">
                 <div class="timeline-dot done"></div>
                 <div class="meta">Phase 2 — Complete ✓</div>
-                <h4>QC Agent Brain + Teams Bot</h4>
-                <p>Built the AI reasoning engine with 9 specialized tools (document search, folder browsing, Excel reading, note-taking, CAPA tracking). Teams bot handler ready for deployment.</p>
+                <h4>QC Agent Brain + Document Write-Back</h4>
+                <p>Built the AI reasoning engine with 10 specialized tools — document search, folder browsing, Excel reading, note-taking, CAPA tracking, and <strong>document upload to SharePoint</strong>. The agent can now generate audit reports and CAPA forms and save them directly to your SharePoint folders. Teams bot handler ready for deployment.</p>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
@@ -1008,7 +1008,7 @@ Here's what I'm including:
 <li>✅ <strong>Section 4: Corrective Actions Required</strong> — 3 CAPAs auto-generated with due dates</li>
 </ul>
 
-📁 <strong>Saved to:</strong> Company Files/01 SQF/Internal Audit Report 2026.docx
+📁 <strong>Saved to:</strong> <a href="#" style="color: #4a9eff; text-decoration: underline;" title="Opens in SharePoint">Company Files/01 SQF/Internal Audit Report 2026.docx ↗</a>
 
 The document is formatted with WholeChem letterhead and ready for your review. I also created 3 draft CAPAs for the findings. Want me to open them?`,
 
@@ -1028,7 +1028,7 @@ The document is formatted with WholeChem letterhead and ready for your review. I
 <li>📌 <strong>Status:</strong> Open</li>
 </ul>
 
-📁 <strong>Saved to:</strong> Company Files/01 SQF/CAPAs/CAPA-2026-001.docx
+📁 <strong>Saved to:</strong> <a href="#" style="color: #4a9eff; text-decoration: underline;" title="Opens in SharePoint">Company Files/01 SQF/CAPAs/CAPA-2026-001.docx ↗</a>
 
 I've also set a reminder to check on this April 15th. Want me to email Flavorchem to schedule the audit?`
 };
